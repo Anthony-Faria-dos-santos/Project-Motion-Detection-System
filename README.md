@@ -4,11 +4,19 @@ As a student in system administration, networks, and cybersecurity, I've designe
 If you notice any security issues or have ideas to improve and make my project more reliable, I am open to any constructive and supportive suggestions.
 
 
-# Motion Detection System with Slack Alerts
+# OPEN-SOURCE Motion Detection System with Slack/GCP Integration
 
 ## Overview
 
 This project uses a camera to detect motion, capture photos, and send alerts via Slack. It combines computer vision techniques with cloud services to create a complete, automated solution.
+
+## Project Goals
+
+As a cybersecurity student, this project aims to:
+1. Provide an affordable open-source security solution
+2. Demonstrate practical implementation of motion detection
+3. Serve as a modular component in larger security ecosystems
+4. Showcase integration with cloud services (Google Cloud) and collaboration tools (Slack)
 
 ## Features
 
@@ -31,20 +39,24 @@ This project uses a camera to detect motion, capture photos, and send alerts via
    ```bash
    pip install -r requirements.txt
 
-Configuration
-Slack Setup:
+#### Configuration
 
-Create a Slack account and app
-Get an API token for your Slack app
-Set up a Slack channel to receive alerts
-Google Cloud Setup:
+#### Slack Setup:
 
-Create a Google Cloud project
-Enable Google Cloud Storage and Google Cloud Logging APIs
-Create a Google Cloud Storage bucket for photos
-Configure permissions and API keys
-.env File:
-Create a .env file in your project directory with these details:
+- Create a Slack account and app
+- Get an API token for your Slack app
+- Set up a Slack channel to receive alerts
+
+#### Google Cloud Setup:
+
+- Create a Google Cloud project
+- Enable Google Cloud Storage and Google Cloud Logging APIs
+- Create a Google Cloud Storage bucket for photos
+- Configure permissions and API keys
+
+#### .env File:
+
+- Clone the .env.exemple file in your project directory and rename it to .env
 
 SLACK_TOKEN=your_slack_token
 SLACK_CHANNEL=your_slack_channel
@@ -74,7 +86,12 @@ This provides a complete solution with both real-time alerts and historical data
 
 
 
-============
+====== LICENCE ======
+
+### Key Points:
+- Open-source security solution
+- Designed for cost-effective deployment
+- Part of a broader ecosystem of security tools
 
 Copyright (c) 2023 Anthony Faria Dos Santos
 
