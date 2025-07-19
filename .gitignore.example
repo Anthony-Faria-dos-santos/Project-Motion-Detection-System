@@ -1,0 +1,14 @@
+# Developpement Documentation
+DOC/
+
+# Python environment
+venv/
+*.pyc
+__pycache__/
+
+# Local configuration files
+.env
+*.env.local
+
+# Cache files
+*.cache
