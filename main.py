@@ -1,6 +1,6 @@
 # Système de Détection de Mouvement - Projet Motion Detection System
 # Version 1.0 - 
-# TODO: Rendre le code plus propre quand j'aurai plus de temps
+# TODO: Rendre le code plus propre
 
 import cv2
 import numpy as np
