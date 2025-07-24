@@ -1,6 +1,9 @@
 # Developpement Documentation
 docs/
 
+# Local captures
+captures/
+
 # Python environment
 __pycache__/
 *.py[cod]
