@@ -4,7 +4,7 @@
 
 ## 📋 À propos du projet
 
-J'ai créé ce projet afin de me challenger à en apprendre plus sur la reconnaissance d'objets. Le code n'est pas parfait mais dans un premier temps ça marche ! 😊
+J'ai créé ce projet afin de me challenger. Le code n'est pas parfait mais dans un premier temps ça marche ! 😊
 Je m'occuperai de l'améliorer et de l'intégrer dans un ensemble de projet open source lié à la domotique et à la sécurité.
 
 ### 🎯 Ce que fait le système
@@ -13,7 +13,7 @@ Je m'occuperai de l'améliorer et de l'intégrer dans un ensemble de projet open
 - **Prend des photos** quand il détecte quelque chose
 - **Envoie des alertes** sur Slack avec les images
 - **Sauvegarde tout** dans Google Cloud Storage
-- **Fonctionne 24h/24** (Si tout va bien 😅)
+- **Fonctionne 24h/24** 
 
 ## 🚀 Installation rapide
 
@@ -117,7 +117,7 @@ Project-Motion-Detection-System/
 ├── captures/              # Images capturées localement
 ├── utils/
 │   ├── gcs_utils.py       # Fonctions Google Cloud
-│   └── slack_utils.py     # Fonctions Slack
+│   └── slack_utils.py     # Fonctions Slack (copié de la doc)
 └── docs/                  # Documentation (mes notes)
 ```
 

@@ -36,7 +36,6 @@ def upload_image_to_gcs(image_path, bucket_name=None):
                 return False
 
         # Je crée un client Google Cloud Storage
-        # J'ai pas trop compris comment ça marche mais ça fonctionne
         storage_client = storage.Client()
         
         # Je récupère le bucket

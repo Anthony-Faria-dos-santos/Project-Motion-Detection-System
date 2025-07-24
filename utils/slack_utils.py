@@ -1,5 +1,5 @@
 # Utilitaires Slack - Projet Motion Detection System
-# J'ai appris à utiliser l'API Slack en suivant leur documentation
+
 # TODO: Améliorer le formatage des messages plus tard
 
 import os
@@ -93,7 +93,6 @@ def send_slack_alert(message, image_path=None, channel=None):
 def send_motion_detected_alert(image_path=None, confidence=None, location=None):
     """
     Envoie une alerte spécifique pour la détection de mouvement
-    J'ai créé cette fonction pour avoir des messages plus jolis
     """
     # Je crée un message plus informatif
     message = "🚨 MOUVEMENT DÉTECTÉ! 🚨"

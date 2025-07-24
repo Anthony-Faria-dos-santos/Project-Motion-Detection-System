@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # Script d'Installation - Projet Motion Detection System
-# Script d'installation automatique
+
 # TODO: Améliorer ce script quand j'aurai plus de temps
 
 import os
