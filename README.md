@@ -45,10 +45,12 @@ cp .env.example .env
 ```bash
 # Slack (obtenez le token sur https://api.slack.com/apps)
 SLACK_TOKEN=xoxb-votre-token-ici
-SLACK_CHANNEL=#votre-canal
+SLACK_CHANNEL=votre-canal
 
 # Google Cloud (créez un projet sur console.cloud.google.com)
-GOOGLE_CLOUD_BUCKET=mon-bucket-captures
+GOOGLE_PROJECT_ID=votre-projet-id
+GOOGLE_CLOUD_BUCKET=mon-bucket-captures-motion-detection
+GOOGLE_APPLICATION_CREDENTIALS=chemin/vers/votre-fichier-de-cle.json
 ```
 
 ### 4. Test
