@@ -1,226 +1,226 @@
-# 🎓 Système de Détection de Mouvement - 
+# 🎓 Motion Detection System
 
-> **Projet Personnel** -  Système de surveillance automatisé avec alertes Slack et stockage cloud
+> **Personal Project** – Automated surveillance system with Slack alerts and cloud storage
 
-## 📋 À propos du projet
+## 📋 About the project
 
-J'ai créé ce projet afin de me challenger. Le code n'est pas parfait mais dans un premier temps ça marche ! 😊
-Je m'occuperai de l'améliorer et de l'intégrer dans un ensemble de projet open source lié à la domotique et à la sécurité.
+I created this project as a challenge to learn more about object recognition. The code isn’t perfect but it works for now! 😊
+I plan to improve it and integrate it into a set of open source projects related to home automation and security.
 
-### 🎯 Ce que fait le système
+### 🎯 What the system does
 
-- **Détecte les mouvements** avec une webcam (OpenCV)
-- **Prend des photos** quand il détecte quelque chose
-- **Envoie des alertes** sur Slack avec les images
-- **Sauvegarde tout** dans Google Cloud Storage
-- **Fonctionne 24h/24** 
+- **Detects motion** with a webcam (OpenCV)
+- **Takes pictures** when something is detected
+- **Sends alerts** on Slack with images
+- **Saves everything** in Google Cloud Storage
+- **Runs 24/7**
 
-## 🚀 Installation rapide
+## 🚀 Quick installation
 
-### 1. Prérequis
+### 1. Prerequisites
 
-- Python 3.8 ou plus récent
-- Une webcam
-- Un compte Slack (gratuit)
-- Un compte Google Cloud (gratuit avec crédits)
+- Python 3.8 or newer
+- A webcam
+- A Slack account (free)
+- A Google Cloud account (free with credits)
 
 ### 2. Installation
 
 ```bash
-# Je clone le projet
-git clone [URL_DU_REPO]
+# Clone the project
+git clone [REPO_URL]
 cd Project-Motion-Detection-System
 
-# J'installe les dépendances
+# Install dependencies
 pip install -r requirements.txt
 
-# Je copie le fichier de configuration
+# Copy the configuration file
 cp .env.example .env
 ```
 
 ### 3. Configuration
 
-Éditez le fichier `.env` avec vos informations :
+Edit the `.env` file with your information:
 
 ```bash
-# Slack (obtenez le token sur https://api.slack.com/apps)
-SLACK_TOKEN=xoxb-votre-token-ici
-SLACK_CHANNEL=votre-canal
+# Slack (get the token at https://api.slack.com/apps)
+SLACK_TOKEN=xoxb-your-token-here
+SLACK_CHANNEL=your-channel
 
-# Google Cloud (créez un projet sur console.cloud.google.com)
-GOOGLE_PROJECT_ID=votre-projet-id
-GOOGLE_CLOUD_BUCKET=mon-bucket-captures-motion-detection
-GOOGLE_APPLICATION_CREDENTIALS=chemin/vers/votre-fichier-de-cle.json
+# Google Cloud (create a project at console.cloud.google.com)
+GOOGLE_PROJECT_ID=your-project-id
+GOOGLE_CLOUD_BUCKET=my-bucket-captures-motion-detection
+GOOGLE_APPLICATION_CREDENTIALS=path/to/your-key-file.json
 ```
 
 ### 4. Test
 
 ```bash
-# Je teste que tout fonctionne
+# Test that everything works
 python test_connections.py
 ```
 
-### 5. Lancement
+### 5. Launch
 
 ```bash
-# Je lance le système
+# Start the system
 python main.py
 ```
 
-## 🔧 Configuration détaillée
+## 🔧 Detailed configuration
 
 ### Slack Setup
 
-1. **Créer une app Slack** :
-   - Allez sur https://api.slack.com/apps
-   - Cliquez "Create New App" → "From scratch"
-   - Donnez un nom à votre app
+1. **Create a Slack app:**
+   - Go to https://api.slack.com/apps
+   - Click "Create New App" → "From scratch"
+   - Give your app a name
 
-2. **Ajouter les permissions** :
-   - Dans "OAuth & Permissions"
-   - Ajoutez ces scopes : `chat:write`, `files:write`
-   - Installez l'app dans votre workspace
-   - Créez un channel pour votre app (ex: #motion-detection)
-   - Ajouter votre bot à votre channel
+2. **Add permissions:**
+   - In "OAuth & Permissions"
+   - Add these scopes: `chat:write`, `files:write`
+   - Install the app in your workspace
+   - Create a channel for your app (e.g.: #motion-detection)
+   - Add your bot to your channel
 
-3. **Récupérer le token** :
-   - Copiez le "Bot User OAuth Token" (commence par `xoxb-`)
-   - Collez-le dans votre `.env`
+3. **Get the token:**
+   - Copy the "Bot User OAuth Token" (starts with `xoxb-`)
+   - Paste it into your `.env`
 
 ### Google Cloud Setup
 
-1. **Créer un projet** :
-   - Allez sur https://console.cloud.google.com
-   - Créez un nouveau projet
+1. **Create a project:**
+   - Go to https://console.cloud.google.com
+   - Create a new project
 
-2. **Activer les APIs** :
-   - Cherchez "Cloud Storage API" et activez-la
-   - Cherchez "Cloud Logging API" et activez-la
+2. **Enable APIs:**
+   - Search for "Cloud Storage API" and enable it
+   - Search for "Cloud Logging API" and enable it
 
-3. **Créer un bucket** :
-   - Dans "Cloud Storage" → "Buckets"
-   - Créez un nouveau bucket (nom unique globalement)
+3. **Create a bucket:**
+   - In "Cloud Storage" → "Buckets"
+   - Create a new bucket (globally unique name)
 
-4. **Configurer l'authentification** :
-   - Dans "IAM & Admin" → "Service Accounts"
-   - Créez un compte de service (attribuer le role "roles/storage.objectAdmin")
-   - Téléchargez le fichier JSON de clé (Cliquez sur le service crée, onglet "Clés", ajouter une clé et téléchargez le fichier JSON)
-   - Placez-le dans le projet et ajoutez le chemin dans la variable GOOGLE_APPLICATION_CREDENTIALS dans le fichier `.env`
+4. **Set up authentication:**
+   - In "IAM & Admin" → "Service Accounts"
+   - Create a service account (assign the role "roles/storage.objectAdmin")
+   - Download the JSON key file (Click on the created service, "Keys" tab, add a key and download the JSON file)
+   - Place it in the project and add the path in the GOOGLE_APPLICATION_CREDENTIALS variable in the `.env` file
 
-## 📁 Structure du projet
+## 📁 Project structure
 
 ```
 Project-Motion-Detection-System/
-├── main.py                 # Programme principal (ma première version)
-├── test_connections.py     # Script de test (pour débugger)
-├── requirements.txt        # Dépendances Python
-├── env.example            # Exemple de configuration
-├── .env                   # Votre configuration (à créer lors du 1er lancement de setup.py)
-├── captures/              # Images capturées localement
+├── main.py                 # Main program (my first version)
+├── test_connections.py     # Test script (for debugging)
+├── requirements.txt        # Python dependencies
+├── env.example             # Configuration example
+├── .env                    # Your configuration (to be created at first setup)
+├── captures/               # Locally captured images
 ├── utils/
-│   ├── gcs_utils.py       # Fonctions Google Cloud
-│   └── slack_utils.py     # Fonctions Slack (copié de la doc)
-└── docs/                  # Documentation (mes notes)
+│   ├── gcs_utils.py       # Google Cloud functions
+│   └── slack_utils.py     # Slack functions (copied from the docs)
+└── docs/                  # Documentation (my notes)
 ```
 
-## 🎮 Utilisation
+## 🎮 Usage
 
-### Démarrage simple
+### Simple start
 
 ```bash
 python main.py
 ```
 
-Le système va :
-1. Ouvrir votre webcam
-2. Afficher l'image en temps réel
-3. Détecter les mouvements (rectangles verts)
-4. Prendre des photos automatiquement
-5. Envoyer des alertes Slack
-6. Sauvegarder dans Google Cloud
+The system will:
+1. Open your webcam
+2. Display the image in real time
+3. Detect motion (green rectangles)
+4. Take pictures automatically
+5. Send Slack alerts
+6. Save to Google Cloud
 
-### Contrôles
+### Controls
 
-- **Q** : Quitter le programme
-- **Espace** : Prendre une photo manuellement (à implémenter)
+- **Q** : Quit the program
+- **Space** : Take a picture manually (to be implemented)
 
-### Paramètres ajustables
+### Adjustable parameters
 
-Dans le fichier `.env` :
+In the `.env` file:
 
 ```bash
-# Sensibilité de détection (1-100, plus bas = plus sensible)
+# Detection sensitivity (1-100, lower = more sensitive)
 MOTION_THRESHOLD=25
 
-# Taille minimale du mouvement (en pixels) plus bas = plus sensible
+# Minimum movement area (in pixels) lower = more sensitive
 MIN_AREA=5000
 
-# Délai entre captures (en secondes)
+# Delay between captures (in seconds)
 CAPTURE_INTERVAL=30
 ```
 
-## 🐛 Dépannage
+## 🐛 Troubleshooting
 
-### Problèmes courants
+### Common issues
 
-**❌ "Impossible d'ouvrir la caméra"**
-- Vérifiez que votre webcam est connectée
-- Essayez `CAMERA_INDEX=1` dans `.env`
+**❌ "Unable to open camera"**
+- Check that your webcam is connected
+- Try `CAMERA_INDEX=1` in `.env`
 
-**❌ "Erreur Slack API"**
-- Vérifiez votre token Slack
-- Assurez-vous que le bot est dans le canal
+**❌ "Slack API error"**
+- Check your Slack token
+- Make sure the bot is in the channel
 
-**❌ "Erreur Google Cloud"**
-- Vérifiez votre fichier de clé de service
-- Assurez-vous que le bucket existe
+**❌ "Google Cloud error"**
+- Check your service key file
+- Make sure the bucket exists
 
 **❌ "Module not found"**
-- Installez les dépendances : `pip install -r requirements.txt`
+- Install dependencies: `pip install -r requirements.txt`
 
-**❌ "Erreur de connexion"**
-- Vérifiez que vous avez bien configuré le fichier de clé de service dans la variable GOOGLE_APPLICATION_CREDENTIALS dans le fichier `.env`
+**❌ "Connection error"**
+- Make sure you have set up the service key file in the GOOGLE_APPLICATION_CREDENTIALS variable in the `.env` file
 
-**❌ "Les variables d'environnement ne sont pas chargées"**
-- Si vous utilisez un environnement virtuel (ex: venv), après avoir modifié le fichier `.env`, il faut lancer le script reload_venv.sh via la commande `source reload_venv.sh` 
+**❌ "Environment variables are not loaded"**
+- If you use a virtual environment (e.g.: venv), after modifying the `.env` file, run the script reload_venv.sh with the command `source reload_venv.sh`
 
-### Logs et debug
+### Logs and debug
 
-Le système affiche des messages dans la console. Si quelque chose ne marche pas, regardez les messages d'erreur !
+The system prints messages in the console. If something doesn’t work, check the error messages!
 
-## 🔮 Améliorations futures
+## 🔮 Future improvements
 
-TODO: ajouter :
+TODO: add:
 
-- [ ] Intergration du Workload Identity Federation (WIF) plutôt que de charger le fichier de clé de service dans le code
-- [ ] Interface web pour configurer le système
-- [ ] Détection de visages (OpenCV)
-- [ ] Reconnaissance d'objets (TensorFlow)
-- [ ] Alertes par email
-- [ ] Interface mobile
-- [ ] Base de données pour les événements
-- [ ] Machine learning pour réduire les faux positifs
+- [ ] Integration of Workload Identity Federation (WIF) instead of loading the service key file in the code
+- [ ] Web interface to configure the system
+- [ ] Face detection (OpenCV)
+- [ ] Object recognition (TensorFlow)
+- [ ] Email alerts
+- [ ] Mobile interface
+- [ ] Database for events
+- [ ] Machine learning to reduce false positives
 
-## 📚 Ce que j'ai intégré dans le projet
+## 📚 What I integrated in the project
 
-- **OpenCV** : Détection de mouvement, traitement d'images
-- **APIs REST** : Slack, Google Cloud
-- **Gestion d'erreurs** : Try/catch, validation
-- **Configuration** : Variables d'environnement
-- **Git** : Versioning, documentation
-- **Déploiement** : Cloud, conteneurs
+- **OpenCV**: Motion detection, image processing
+- **REST APIs**: Slack, Google Cloud
+- **Error handling**: Try/catch, validation
+- **Configuration**: Environment variables
+- **Git**: Versioning, documentation
+- **Deployment**: Cloud, containers
 
 ## 🤝 Contribution
 
-C'est un projet d'apprentissage, donc :
-- Les suggestions sont les bienvenues !
-- Les bugs peuvent être signalés
-- Le code n'est pas encore parfait
+This is a learning project, so:
+- Suggestions are welcome!
+- Bugs can be reported
+- The code is not perfect yet
 
-## 📄 Licence
+## 📄 License
 
-Ce projet est sous licence MIT. Vous pouvez l'utiliser, le modifier, le distribuer librement.
+This project is under the MIT license. You can use, modify, and distribute it freely.
 
 ---
 
-**Note** : Ce système est fait pour l'apprentissage et la surveillance personnelle. Utilisez-le de manière responsable et respectez la vie privée des autres ! 🔒
+**Note**: This system is for learning and personal surveillance. Use it responsibly and respect others’ privacy! 🔒 
