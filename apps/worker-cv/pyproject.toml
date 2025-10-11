@@ -1,0 +1,11 @@
+[project]
+name = "motionops-worker-cv"
+version = "0.0.1"
+requires-python = ">=3.12"
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "W"]
