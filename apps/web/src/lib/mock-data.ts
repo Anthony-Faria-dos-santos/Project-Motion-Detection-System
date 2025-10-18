@@ -1,0 +1,338 @@
+import type {
+  DashboardKpis,
+  CameraSummary,
+  EventListItem,
+  HealthOverview,
+  LiveSceneState,
+  RuntimeConfigView,
+  PresetSummary,
+  AuditLogEntryView,
+} from '@motionops/types';
+
+export const mockKpis: DashboardKpis = {
+  activeCameras: 2,
+  alertsToday: 7,
+  activeTracksNow: 3,
+  avgLatencyMs: 42,
+  droppedFrames15m: 0,
+  timestamp: new Date().toISOString(),
+};
+
+export const mockCameras: CameraSummary[] = [
+  {
+    id: 'cam-1',
+    name: 'Entree Nord',
+    status: 'online',
+    location: 'Batiment A',
+    lastFrameAt: new Date().toISOString(),
+    fps: 25,
+    latencyMs: 34,
+    activePresetName: 'Production Standard',
+    thumbnailUrl: null,
+    resolution: '1920x1080',
+  },
+  {
+    id: 'cam-2',
+    name: 'Parking B2',
+    status: 'offline',
+    location: 'Parking Sous-sol',
+    lastFrameAt: null,
+    fps: 0,
+    latencyMs: 0,
+    activePresetName: null,
+    thumbnailUrl: null,
+    resolution: '1280x720',
+  },
+  {
+    id: 'cam-3',
+    name: 'Couloir Est',
+    status: 'degraded',
+    location: 'Batiment B',
+    lastFrameAt: new Date().toISOString(),
+    fps: 12,
+    latencyMs: 89,
+    activePresetName: 'Haute Sensibilite',
+    thumbnailUrl: null,
+    resolution: '1920x1080',
+  },
+];
+
+export const mockEvents: EventListItem[] = [
+  {
+    id: 'evt-1',
+    type: 'rule_triggered',
+    severity: 'high',
+    summary: 'Personne detectee zone restreinte',
+    cameraId: 'cam-1',
+    cameraName: 'Entree Nord',
+    timestampStart: new Date(Date.now() - 300_000).toISOString(),
+    reviewStatus: 'unreviewed',
+    snapshotUrl: null,
+    objectClass: 'person',
+    confidence: 0.92,
+  },
+  {
+    id: 'evt-2',
+    type: 'system_alert',
+    severity: 'critical',
+    summary: 'Camera Parking B2 offline depuis 45s',
+    cameraId: 'cam-2',
+    cameraName: 'Parking B2',
+    timestampStart: new Date(Date.now() - 180_000).toISOString(),
+    reviewStatus: 'unreviewed',
+    snapshotUrl: null,
+    objectClass: null,
+    confidence: null,
+  },
+  {
+    id: 'evt-3',
+    type: 'motion_detected',
+    severity: 'low',
+    summary: 'Mouvement detecte sans objet reconnu',
+    cameraId: 'cam-3',
+    cameraName: 'Couloir Est',
+    timestampStart: new Date(Date.now() - 600_000).toISOString(),
+    reviewStatus: 'confirmed',
+    snapshotUrl: null,
+    objectClass: null,
+    confidence: null,
+  },
+  {
+    id: 'evt-4',
+    type: 'object_detected',
+    severity: 'medium',
+    summary: 'Vehicule stationne zone interdite',
+    cameraId: 'cam-1',
+    cameraName: 'Entree Nord',
+    timestampStart: new Date(Date.now() - 900_000).toISOString(),
+    reviewStatus: 'false_positive',
+    snapshotUrl: null,
+    objectClass: 'car',
+    confidence: 0.78,
+  },
+  {
+    id: 'evt-5',
+    type: 'rule_triggered',
+    severity: 'info',
+    summary: 'Passage detecte ligne virtuelle A',
+    cameraId: 'cam-3',
+    cameraName: 'Couloir Est',
+    timestampStart: new Date(Date.now() - 1_200_000).toISOString(),
+    reviewStatus: 'unreviewed',
+    snapshotUrl: null,
+    objectClass: 'person',
+    confidence: 0.85,
+  },
+];
+
+export const mockLiveScene: LiveSceneState = {
+  cameraId: 'cam-1',
+  streamStatus: 'live',
+  activeTracksCount: 3,
+  detectionsCount: 5,
+  currentMode: 'detection',
+  lastAlertAt: new Date(Date.now() - 120000).toISOString(),
+};
+
+/* ── Extended Events + Detail ──────────────────────────────────────── */
+
+import type { EventDetail } from '@motionops/types';
+
+export const mockEventsExtended: EventListItem[] = [
+  ...mockEvents,
+  {
+    id: 'evt-6',
+    type: 'track_lost',
+    severity: 'info',
+    summary: 'Track #42 perdu apres 45s',
+    cameraId: 'cam-1',
+    cameraName: 'Entree Nord',
+    timestampStart: new Date(Date.now() - 1800000).toISOString(),
+    reviewStatus: 'ignored',
+    snapshotUrl: null,
+    objectClass: 'person',
+    confidence: 0.71,
+  },
+  {
+    id: 'evt-7',
+    type: 'rule_triggered',
+    severity: 'high',
+    summary: 'Stationnement prolonge zone livraison',
+    cameraId: 'cam-3',
+    cameraName: 'Couloir Est',
+    timestampStart: new Date(Date.now() - 2400000).toISOString(),
+    reviewStatus: 'escalated',
+    snapshotUrl: null,
+    objectClass: 'truck',
+    confidence: 0.88,
+  },
+  {
+    id: 'evt-8',
+    type: 'object_detected',
+    severity: 'medium',
+    summary: 'Bicyclette detectee zone pietonne',
+    cameraId: 'cam-1',
+    cameraName: 'Entree Nord',
+    timestampStart: new Date(Date.now() - 3600000).toISOString(),
+    reviewStatus: 'confirmed',
+    snapshotUrl: null,
+    objectClass: 'bicycle',
+    confidence: 0.82,
+  },
+  {
+    id: 'evt-9',
+    type: 'motion_detected',
+    severity: 'low',
+    summary: 'Mouvement detecte pres du portail arriere',
+    cameraId: 'cam-2',
+    cameraName: 'Parking B2',
+    timestampStart: new Date(Date.now() - 4500000).toISOString(),
+    reviewStatus: 'unreviewed',
+    snapshotUrl: null,
+    objectClass: null,
+    confidence: null,
+  },
+  {
+    id: 'evt-10',
+    type: 'system_alert',
+    severity: 'critical',
+    summary: 'Perte de connexion reseau cam-3 pendant 12s',
+    cameraId: 'cam-3',
+    cameraName: 'Couloir Est',
+    timestampStart: new Date(Date.now() - 5400000).toISOString(),
+    reviewStatus: 'confirmed',
+    snapshotUrl: null,
+    objectClass: null,
+    confidence: null,
+  },
+];
+
+export const mockEventDetail: EventDetail = {
+  id: 'evt-1',
+  type: 'rule_triggered',
+  severity: 'high',
+  summary: 'Personne detectee zone restreinte',
+  cameraId: 'cam-1',
+  cameraName: 'Entree Nord',
+  timestampStart: new Date(Date.now() - 300000).toISOString(),
+  timestampEnd: new Date(Date.now() - 240000).toISOString(),
+  createdAt: new Date(Date.now() - 300000).toISOString(),
+  objectClass: 'person',
+  confidence: 0.92,
+  bbox: { x: 120, y: 80, w: 65, h: 140 },
+  reviewStatus: 'unreviewed',
+  reviewedBy: null,
+  reviewedAt: null,
+  reviewNotes: null,
+  tracks: [
+    {
+      trackId: 'track-42',
+      className: 'person',
+      positions: [
+        { x: 120, y: 150, t: new Date(Date.now() - 295000).toISOString() },
+        { x: 135, y: 155, t: new Date(Date.now() - 290000).toISOString() },
+      ],
+    },
+  ],
+  configSnapshot: { detector: { confidence: 0.5 }, motion: { sensitivity: 0.5 } },
+  clipUrl: null,
+  snapshotUrl: null,
+  thumbnailUrl: null,
+  ruleId: 'rule-1',
+  ruleName: 'Zone restreinte intrusion',
+  relatedEventIds: ['evt-4'],
+  reviewHistory: [],
+};
+
+export const mockHealth: HealthOverview = {
+  status: 'degraded',
+  timestamp: new Date().toISOString(),
+  services: [
+    { name: 'API', status: 'up', latencyMs: 12, lastCheckAt: new Date().toISOString() },
+    { name: 'Worker-CV', status: 'up', latencyMs: 8, lastCheckAt: new Date().toISOString() },
+    { name: 'Database', status: 'up', latencyMs: 3, lastCheckAt: new Date().toISOString() },
+    { name: 'WebSocket', status: 'degraded', latencyMs: 145, lastCheckAt: new Date().toISOString() },
+  ],
+  cameras: { online: 2, offline: 1, degraded: 0, total: 3 },
+  resources: {
+    cpuPercent: 45,
+    gpuPercent: 67,
+    ramMb: 2048,
+    ramTotalMb: 8192,
+    diskPercent: 32,
+  },
+  inference: {
+    modelName: 'yolov8n',
+    latencyP50Ms: 18,
+    latencyP95Ms: 34,
+    throughputFps: 25,
+    queueDepth: 0,
+    droppedFrames24h: 3,
+  },
+  recentErrors: [],
+};
+
+/* ── Runtime Config, Presets & Audit ───────────────────────────────── */
+
+export const mockRuntimeConfig: RuntimeConfigView = {
+  presetId: 'preset-1',
+  presetName: 'Production Standard',
+  version: 14,
+  updatedAt: new Date(Date.now() - 600000).toISOString(),
+  updatedBy: 'admin@motionops.local',
+  permissions: { canEdit: true, canApplyPreset: true, canRollback: true },
+  sections: [
+    {
+      key: 'detector',
+      label: 'Detection',
+      editable: true,
+      fields: [
+        { key: 'confidence', label: 'Confidence Threshold', type: 'float', value: 0.50, defaultValue: 0.50, min: 0.1, max: 1.0, step: 0.05, description: 'Minimum detection confidence score' },
+        { key: 'iou', label: 'IoU Threshold', type: 'float', value: 0.45, defaultValue: 0.45, min: 0.1, max: 1.0, step: 0.05, description: 'Intersection over Union for NMS' },
+        { key: 'inferenceSize', label: 'Inference Size', type: 'int', value: 640, defaultValue: 640, min: 320, max: 1280, step: 64, description: 'Input image size for YOLO' },
+      ],
+    },
+    {
+      key: 'motion',
+      label: 'Motion',
+      editable: true,
+      fields: [
+        { key: 'sensitivity', label: 'Motion Sensitivity', type: 'float', value: 0.50, defaultValue: 0.50, min: 0.0, max: 1.0, step: 0.05, description: 'Background subtractor sensitivity' },
+        { key: 'minArea', label: 'Minimum Area', type: 'int', value: 500, defaultValue: 500, min: 100, max: 10000, step: 100, description: 'Minimum contour area in pixels' },
+        { key: 'shadowDetection', label: 'Shadow Detection', type: 'boolean', value: true, defaultValue: true, description: 'Enable MOG2 shadow detection' },
+      ],
+    },
+    {
+      key: 'tracking',
+      label: 'Tracking',
+      editable: true,
+      fields: [
+        { key: 'trackBuffer', label: 'Track Buffer', type: 'int', value: 30, defaultValue: 30, min: 1, max: 120, step: 1, description: 'Frames to keep lost tracks' },
+        { key: 'matchThreshold', label: 'Match Threshold', type: 'float', value: 0.80, defaultValue: 0.80, min: 0.1, max: 1.0, step: 0.05, description: 'IoU threshold for track association' },
+      ],
+    },
+    {
+      key: 'alerting',
+      label: 'Alerting',
+      editable: true,
+      fields: [
+        { key: 'globalCooldownMs', label: 'Global Cooldown', type: 'int', value: 60000, defaultValue: 60000, min: 0, max: 300000, step: 5000, description: 'Minimum ms between same-type alerts' },
+        { key: 'minSeverity', label: 'Minimum Severity', type: 'select', value: 'low', defaultValue: 'low', options: ['info', 'low', 'medium', 'high', 'critical'], description: 'Events below this severity are suppressed' },
+        { key: 'suppressDuplicates', label: 'Suppress Duplicates', type: 'boolean', value: true, defaultValue: true, description: 'Merge identical consecutive alerts' },
+      ],
+    },
+  ],
+};
+
+export const mockPresets: PresetSummary[] = [
+  { id: 'preset-1', name: 'Production Standard', description: 'Balanced detection for daytime operations', isBuiltIn: true, scope: 'global', createdBy: 'system', createdAt: '2026-01-15T10:00:00Z' },
+  { id: 'preset-2', name: 'Haute Sensibilite Nuit', description: 'Increased sensitivity for low-light conditions', isBuiltIn: false, scope: 'global', createdBy: 'admin@motionops.local', createdAt: '2026-03-20T14:30:00Z' },
+  { id: 'preset-3', name: 'Mode Economie GPU', description: 'Reduced inference for lower GPU consumption', isBuiltIn: false, scope: 'global', createdBy: 'admin@motionops.local', createdAt: '2026-04-01T09:00:00Z' },
+];
+
+export const mockAuditLogs: AuditLogEntryView[] = [
+  { id: 'audit-1', userId: 'user-1', userDisplayName: 'Marie Durand', action: 'config:update', resource: 'runtime_config', resourceId: null, changes: [{ field: 'detector.confidence', oldValue: 0.45, newValue: 0.50 }], ipAddress: '192.168.1.100', userAgent: 'Mozilla/5.0', createdAt: new Date(Date.now() - 600000).toISOString() },
+  { id: 'audit-2', userId: 'user-1', userDisplayName: 'Marie Durand', action: 'preset:apply', resource: 'preset', resourceId: 'preset-1', changes: null, ipAddress: '192.168.1.100', userAgent: 'Mozilla/5.0', createdAt: new Date(Date.now() - 1200000).toISOString() },
+  { id: 'audit-3', userId: 'user-2', userDisplayName: 'Jean Martin', action: 'event:review', resource: 'event', resourceId: 'evt-3', changes: [{ field: 'reviewStatus', oldValue: 'unreviewed', newValue: 'confirmed' }], ipAddress: '192.168.1.101', userAgent: 'Mozilla/5.0', createdAt: new Date(Date.now() - 3600000).toISOString() },
+  { id: 'audit-4', userId: 'user-1', userDisplayName: 'Marie Durand', action: 'camera:create', resource: 'camera', resourceId: 'cam-3', changes: null, ipAddress: '192.168.1.100', userAgent: 'Mozilla/5.0', createdAt: new Date(Date.now() - 7200000).toISOString() },
+];
