@@ -1,0 +1,301 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL") // Used for migrations (bypasses pgbouncer)
+}
+
+// ── Enums ──────────────────────────────────────
+
+enum Role {
+  VIEWER
+  OPERATOR
+  ANALYST
+  ADMIN
+  SUPER_ADMIN
+}
+
+enum CameraStatus {
+  ONLINE
+  OFFLINE
+  BUFFERING
+  DEGRADED
+  PAUSED
+  RECONNECTING
+}
+
+enum EventSeverity {
+  INFO
+  LOW
+  MEDIUM
+  HIGH
+  CRITICAL
+}
+
+enum ReviewStatus {
+  UNREVIEWED
+  CONFIRMED
+  FALSE_POSITIVE
+  IGNORED
+  ESCALATED
+}
+
+enum ConfigApplyStatus {
+  IDLE
+  PENDING
+  APPLIED
+  FAILED
+  ROLLED_BACK
+}
+
+enum IncidentStatus {
+  OPEN
+  INVESTIGATING
+  RESOLVED
+  CLOSED
+}
+
+// ── Models ─────────────────────────────────────
+
+model User {
+  id          String   @id @default(dbgenerated("gen_random_uuid()"))
+  email       String   @unique
+  displayName String
+  role        Role     @default(VIEWER)
+  status      String   @default("active")
+  supabaseId  String   @unique
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  auditLogs     AuditLog[]
+  refreshTokens RefreshToken[]
+
+  @@map("users")
+}
+
+model Camera {
+  id              String       @id @default(dbgenerated("gen_random_uuid()"))
+  name            String
+  location        String
+  sourceUrl       String
+  streamUrl       String?
+  thumbnailUrl    String?
+  status          CameraStatus @default(OFFLINE)
+  resolution      String?
+  fps             Float?
+  latencyMs       Int?
+  lastHeartbeat   DateTime?
+  lastFrameAt     DateTime?
+  activeProfileId String?
+  config          Json?
+  createdAt       DateTime     @default(now())
+  updatedAt       DateTime     @updatedAt
+
+  activeProfile SceneProfile?  @relation("ActiveProfile", fields: [activeProfileId], references: [id])
+  events        Event[]
+  zones         Zone[]
+  profiles      SceneProfile[] @relation("CameraProfiles")
+  rules         Rule[]
+
+  @@map("cameras")
+}
+
+model Zone {
+  id        String   @id @default(dbgenerated("gen_random_uuid()"))
+  name      String
+  polygon   Json
+  type      String
+  cameraId  String
+  camera    Camera   @relation(fields: [cameraId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@map("zones")
+}
+
+model SceneProfile {
+  id                 String   @id @default(dbgenerated("gen_random_uuid()"))
+  name               String
+  cameraId           String
+  motionSensitivity  Float    @default(0.5)
+  detectorConfidence Float    @default(0.5)
+  iouThreshold       Float    @default(0.45)
+  trackingBuffer     Int      @default(30)
+  classes            String[] @default(["person", "car"])
+  notes              String?
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+
+  camera      Camera   @relation("CameraProfiles", fields: [cameraId], references: [id], onDelete: Cascade)
+  activatedBy Camera[] @relation("ActiveProfile")
+
+  @@unique([cameraId, name])
+  @@map("scene_profiles")
+}
+
+model Rule {
+  id          String         @id @default(dbgenerated("gen_random_uuid()"))
+  name        String
+  description String?
+  isActive    Boolean        @default(true)
+  priority    Int            @default(0)
+  severity    EventSeverity?
+  conditions  Json
+  actions     Json
+  cooldownMs  Int            @default(60000)
+  cameraId    String?
+  testMode    Boolean        @default(false)
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+
+  camera Camera? @relation(fields: [cameraId], references: [id], onDelete: SetNull)
+  events Event[]
+
+  @@map("rules")
+}
+
+model Event {
+  id             String        @id @default(dbgenerated("gen_random_uuid()"))
+  type           String
+  severity       EventSeverity @default(INFO)
+  summary        String
+  cameraId       String
+  ruleId         String?
+  reviewStatus   ReviewStatus  @default(UNREVIEWED)
+  reviewedBy     String?
+  reviewedAt     DateTime?
+  reviewNotes    String?
+  metadata       Json?
+  snapshotUrl    String?
+  clipUrl        String?
+  configSnapshot Json?
+  timestampStart DateTime
+  timestampEnd   DateTime?
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+
+  camera    Camera          @relation(fields: [cameraId], references: [id], onDelete: Cascade)
+  rule      Rule?           @relation(fields: [ruleId], references: [id], onDelete: SetNull)
+  tracks    Track[]
+  incidents IncidentEvent[]
+
+  @@index([cameraId, timestampStart])
+  @@index([severity])
+  @@index([reviewStatus])
+  @@map("events")
+}
+
+model Track {
+  id            String   @id @default(dbgenerated("gen_random_uuid()"))
+  sourceTrackId String
+  cameraId      String
+  className     String
+  firstSeenAt   DateTime
+  lastSeenAt    DateTime
+  isActive      Boolean  @default(true)
+  positions     Json[]
+  confidence    Float?
+  eventId       String?
+
+  event Event? @relation(fields: [eventId], references: [id], onDelete: SetNull)
+
+  @@index([cameraId, isActive])
+  @@map("tracks")
+}
+
+model Incident {
+  id         String         @id @default(dbgenerated("gen_random_uuid()"))
+  title      String
+  summary    String?
+  notes      String?
+  status     IncidentStatus @default(OPEN)
+  severity   EventSeverity  @default(LOW)
+  assignedTo String?
+  createdBy  String
+  createdAt  DateTime       @default(now())
+  updatedAt  DateTime       @updatedAt
+
+  events IncidentEvent[]
+
+  @@map("incidents")
+}
+
+model IncidentEvent {
+  incidentId String
+  eventId    String
+
+  incident Incident @relation(fields: [incidentId], references: [id], onDelete: Cascade)
+  event    Event    @relation(fields: [eventId], references: [id], onDelete: Cascade)
+
+  @@id([incidentId, eventId])
+  @@index([eventId])
+  @@map("incident_events")
+}
+
+model Preset {
+  id          String   @id @default(dbgenerated("gen_random_uuid()"))
+  name        String
+  description String?
+  scope       String   @default("global")
+  isBuiltIn   Boolean  @default(false)
+  config      Json
+  createdBy   String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("presets")
+}
+
+model AuditLog {
+  id         String   @id @default(dbgenerated("gen_random_uuid()"))
+  userId     String
+  action     String
+  resource   String
+  resourceId String?
+  before     Json?
+  after      Json?
+  result     String   @default("success")
+  origin     String?
+  ipAddress  String?
+  userAgent  String?
+  comment    String?
+  createdAt  DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, createdAt])
+  @@index([resource, createdAt])
+  @@index([action])
+  @@map("audit_logs")
+}
+
+model SystemMetric {
+  id        String   @id @default(dbgenerated("gen_random_uuid()"))
+  source    String
+  metric    String
+  value     Float
+  unit      String?
+  cameraId  String?
+  workerId  String?
+  timestamp DateTime @default(now())
+
+  @@index([source, metric, timestamp])
+  @@map("system_metrics")
+}
+
+model RefreshToken {
+  id        String    @id @default(dbgenerated("gen_random_uuid()"))
+  token     String    @unique
+  userId    String
+  expiresAt DateTime
+  revokedAt DateTime?
+  createdAt DateTime  @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([token])
+  @@index([userId])
+  @@map("refresh_tokens")
+}
