@@ -1,0 +1,56 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    profiles: ["dev"]
+    environment:
+      POSTGRES_DB: motionops
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    networks:
+      - internal
+
+  api:
+    build:
+      context: .
+      dockerfile: apps/api/Dockerfile
+    ports:
+      - "3001:3001"
+    env_file:
+      - .env
+    environment:
+      NODE_ENV: ${NODE_ENV:-development}
+      API_PORT: "3001"
+    restart: unless-stopped
+    networks:
+      - internal
+      - public
+
+  worker-cv:
+    build:
+      context: .
+      dockerfile: apps/worker-cv/Dockerfile
+    env_file:
+      - .env
+    environment:
+      WORKER_API_URL: http://api:3001
+    depends_on:
+      - api
+    restart: unless-stopped
+    networks:
+      - internal  # Worker only on internal network
+
+networks:
+  public:
+    driver: bridge
+  internal:
+    driver: bridge
+    internal: true  # No external access
+
+volumes:
+  pgdata:
