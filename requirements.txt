@@ -19,4 +19,4 @@ python-dotenv==1.1.1
 requests==2.32.4
 rsa==4.9.1
 slack_sdk==3.36.0
-urllib3==2.5.0
+urllib3==2.6.0
