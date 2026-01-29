@@ -1,0 +1,7 @@
+# Default owners for everything in the repo
+*       @Anthony-Faria-dos-santos
+
+# Infra and CI
+/.github/           @Anthony-Faria-dos-santos
+/infra/             @Anthony-Faria-dos-santos
+/docker-compose.yml @Anthony-Faria-dos-santos
