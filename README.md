@@ -1,226 +1,53 @@
-# 🎓 Motion Detection System
+# MotionOps
 
-> **Personal Project** – Automated surveillance system with Slack alerts and cloud storage
+MotionOps is a web platform for video analytics built around a simple idea: a video feed is only useful once it can be supervised, understood, tuned and audited. Detecting motion is not enough. What matters is the chain that runs from the raw pixel to a human decision that leaves a trace.
 
-## 📋 About the project
+The system ingests one or more camera feeds, pushes them through a computer-vision engine, qualifies what happens in the scene, emits structured events, surfaces them live in a supervision interface, stores them for investigation, and exposes to administrators the levers needed to tune the engine without interrupting service.
 
-I created this project as a challenge to learn more about object recognition. The code isn’t perfect but it works for now! 😊
-I plan to improve it and integrate it into a set of open source projects related to home automation and security.
+## What the system does
 
-### 🎯 What the system does
+Three components run in parallel and communicate through explicit contracts.
 
-- **Detects motion** with a webcam (OpenCV)
-- **Takes pictures** when something is detected
-- **Sends alerts** on Slack with images
-- **Saves everything** in Google Cloud Storage
-- **Runs 24/7**
+The vision worker ingests video sources, runs an OpenCV preprocessing pipeline, then applies YOLO detection coupled with ByteTrack tracking to follow objects across time. It does not stop at "something moved": it produces timestamped observations, object tracks, and events qualified by runtime rules (zones of interest, thresholds, scene filters, temporal grouping). Rules reload hot, without restarting the stream.
 
-## 🚀 Quick installation
+The API orchestrates the rest. Authentication and RBAC through Supabase Auth, persistence through Prisma on Postgres, a Socket.IO WebSocket hub to push events and live state to connected clients, an audit log covering every administrative action, and runtime configuration validated through Zod schemas shared with the frontend.
 
-### 1. Prerequisites
+The frontend serves four distinct surfaces: real-time supervision with the live feed and its event context, an admin console to drive sources, rules, scene profiles and sensitive parameters with immediate feedback from the worker, post-incident investigation with timeline, replayable clips and annotations, and a health dashboard for pipeline latency, worker status and detection quality metrics.
 
-- Python 3.8 or newer
-- A webcam
-- A Slack account (free)
-- A Google Cloud account (free with credits)
+## Why this project exists
 
-### 2. Installation
+Most motion detectors stop at the algorithm. They produce noise, do not explain their decisions, bury their settings in code, and leave nothing useful behind. The operator is left uncertain, the administrator tunes blind, the analyst has no material to reopen a case, and the system drifts without anyone knowing why.
 
-```bash
-# Clone the project
-git clone [REPO_URL]
-cd Project-Motion-Detection-System
+MotionOps starts from the opposite assumption. An event must be justifiable. A setting must be reversible and traced. An alert must be tied to a named rule, a scene profile, a zone and a moment. An investigation must be able to replay the scene and find the algorithmic decision attached to it. An admin change must leave an audited footprint. That requirement for legibility drives the whole architecture.
 
-# Install dependencies
-pip install -r requirements.txt
+## Who it is for
 
-# Copy the configuration file
-cp .env.example .env
-```
+The product targets four distinct roles, each with its own dedicated surface.
 
-### 3. Configuration
+The operator watches the live feed, qualifies incoming events quickly, and escalates the ones that deserve attention. Their interface is built for information density and keyboard-first reactivity.
 
-Edit the `.env` file with your information:
+The administrator adjusts sources, rules, thresholds, zones and scene profiles while the system runs. Every change is versioned, comparable, and reversible. Sensitive parameters require MFA and leave an audit entry.
 
-```bash
-# Slack (get the token at https://api.slack.com/apps)
-SLACK_TOKEN=xoxb-your-token-here
-SLACK_CHANNEL=your-channel
+The analyst reopens the history, reviews clips, cross-references events, annotates incidents and builds a usable narrative. The data model preserves forensic provenance on every event: rule triggered, engine version, configuration active at the moment of the fact.
 
-# Google Cloud (create a project at console.cloud.google.com)
-GOOGLE_PROJECT_ID=your-project-id
-GOOGLE_CLOUD_BUCKET=my-bucket-captures-motion-detection
-GOOGLE_APPLICATION_CREDENTIALS=path/to/your-key-file.json
-```
+The maintainer follows system health through a dedicated dashboard, watches engine drift, and feeds the continuous-improvement loop from the false positives flagged by operators.
 
-### 4. Test
+## What is specific here
 
-```bash
-# Test that everything works
-python test_connections.py
-```
+Hot rule reload without cutting the stream changes the iteration loop: an administrator can test a threshold, observe its effect on the live feed immediately, and revert it in one action, which a frozen pipeline cannot offer.
 
-### 5. Launch
+The forensic provenance attached to every event is not limited to a timestamp. An event carries the engine version, the rule identifier, the active scene profile and the effective parameters at the moment of emission. An event from 2026-02 stays interpretable after ten engine revisions.
 
-```bash
-# Start the system
-python main.py
-```
+The strict separation between perception (worker-cv), orchestration (api) and presentation (web) lets one swap a detector, add a camera or rebuild the UI without breaking the other two layers. Event and configuration contracts live in shared typed packages.
 
-## 🔧 Detailed configuration
+Audit and RBAC are treated as first-class product concerns, not patches. Every admin action, configuration change and MFA session leaves a structured trace that can be queried.
 
-### Slack Setup
+The learning loop is explicit. False positives flagged by operators become documented material, tied back to the configuration that produced them, reusable to improve rules and thresholds.
 
-1. **Create a Slack app:**
-   - Go to https://api.slack.com/apps
-   - Click "Create New App" → "From scratch"
-   - Give your app a name
+## Stack
 
-2. **Add permissions:**
-   - In "OAuth & Permissions"
-   - Add these scopes: `chat:write`, `files:write`
-   - Install the app in your workspace
-   - Create a channel for your app (e.g.: #motion-detection)
-   - Add your bot to your channel
+Frontend on Next.js 15, React 19, Tailwind v4, shadcn/ui. API on Node.js with Express 5, Prisma, Socket.IO, Supabase Auth. Vision worker on Python 3.12 with OpenCV, YOLO, ByteTrack, FastAPI. Postgres database. Web deployed on Vercel, API and worker on a Hostinger KVM2 VPS.
 
-3. **Get the token:**
-   - Copy the "Bot User OAuth Token" (starts with `xoxb-`)
-   - Paste it into your `.env`
+## Status
 
-### Google Cloud Setup
-
-1. **Create a project:**
-   - Go to https://console.cloud.google.com
-   - Create a new project
-
-2. **Enable APIs:**
-   - Search for "Cloud Storage API" and enable it
-   - Search for "Cloud Logging API" and enable it
-
-3. **Create a bucket:**
-   - In "Cloud Storage" → "Buckets"
-   - Create a new bucket (globally unique name)
-
-4. **Set up authentication:**
-   - In "IAM & Admin" → "Service Accounts"
-   - Create a service account (assign the role "roles/storage.objectAdmin")
-   - Download the JSON key file (Click on the created service, "Keys" tab, add a key and download the JSON file)
-   - Place it in the project and add the path in the GOOGLE_APPLICATION_CREDENTIALS variable in the `.env` file
-
-## 📁 Project structure
-
-```
-Project-Motion-Detection-System/
-├── main.py                 # Main program (my first version)
-├── test_connections.py     # Test script (for debugging)
-├── requirements.txt        # Python dependencies
-├── env.example             # Configuration example
-├── .env                    # Your configuration (to be created at first setup)
-├── captures/               # Locally captured images
-├── utils/
-│   ├── gcs_utils.py       # Google Cloud functions
-│   └── slack_utils.py     # Slack functions (copied from the docs)
-└── docs/                  # Documentation (my notes)
-```
-
-## 🎮 Usage
-
-### Simple start
-
-```bash
-python main.py
-```
-
-The system will:
-1. Open your webcam
-2. Display the image in real time
-3. Detect motion (green rectangles)
-4. Take pictures automatically
-5. Send Slack alerts
-6. Save to Google Cloud
-
-### Controls
-
-- **Q** : Quit the program
-- **Space** : Take a picture manually (to be implemented)
-
-### Adjustable parameters
-
-In the `.env` file:
-
-```bash
-# Detection sensitivity (1-100, lower = more sensitive)
-MOTION_THRESHOLD=25
-
-# Minimum movement area (in pixels) lower = more sensitive
-MIN_AREA=5000
-
-# Delay between captures (in seconds)
-CAPTURE_INTERVAL=30
-```
-
-## 🐛 Troubleshooting
-
-### Common issues
-
-**❌ "Unable to open camera"**
-- Check that your webcam is connected
-- Try `CAMERA_INDEX=1` in `.env`
-
-**❌ "Slack API error"**
-- Check your Slack token
-- Make sure the bot is in the channel
-
-**❌ "Google Cloud error"**
-- Check your service key file
-- Make sure the bucket exists
-
-**❌ "Module not found"**
-- Install dependencies: `pip install -r requirements.txt`
-
-**❌ "Connection error"**
-- Make sure you have set up the service key file in the GOOGLE_APPLICATION_CREDENTIALS variable in the `.env` file
-
-**❌ "Environment variables are not loaded"**
-- If you use a virtual environment (e.g.: venv), after modifying the `.env` file, run the script reload_venv.sh with the command `source reload_venv.sh`
-
-### Logs and debug
-
-The system prints messages in the console. If something doesn’t work, check the error messages!
-
-## 🔮 Future improvements
-
-TODO: add:
-
-- [ ] Integration of Workload Identity Federation (WIF) instead of loading the service key file in the code
-- [ ] Web interface to configure the system
-- [ ] Face detection (OpenCV)
-- [ ] Object recognition (TensorFlow)
-- [ ] Email alerts
-- [ ] Mobile interface
-- [ ] Database for events
-- [ ] Machine learning to reduce false positives
-
-## 📚 What I integrated in the project
-
-- **OpenCV**: Motion detection, image processing
-- **REST APIs**: Slack, Google Cloud
-- **Error handling**: Try/catch, validation
-- **Configuration**: Environment variables
-- **Git**: Versioning, documentation
-- **Deployment**: Cloud, containers
-
-## 🤝 Contribution
-
-This is a learning project, so:
-- Suggestions are welcome!
-- Bugs can be reported
-- The code is not perfect yet
-
-## 📄 License
-
-This project is under the MIT license. You can use, modify, and distribute it freely.
-
----
-
-**Note**: This system is for learning and personal surveillance. Use it responsibly and respect others’ privacy! 🔒 
+The product is under active construction. The backend currently covers authentication, RBAC, runtime configuration, the event hub and audit. The frontend exposes the four main surfaces with empty, loading, error and insufficient-permission states handled explicitly. The vision worker and its event pipeline are the next structural step.
