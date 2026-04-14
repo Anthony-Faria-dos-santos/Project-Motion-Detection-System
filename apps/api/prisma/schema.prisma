@@ -114,6 +114,7 @@ model User {
   refreshTokens           RefreshToken[]
   emailVerificationTokens EmailVerificationToken[]
   passwordResetTokens     PasswordResetToken[]
+  passkeyRecoveryTokens   PasskeyRecoveryToken[]
   linkedAccounts          LinkedAccount[]
   passkeys                Passkey[]
   invitationsSent         UserInvitation[]         @relation("InvitedBy")
@@ -383,6 +384,27 @@ model PasswordResetToken {
   @@index([token])
   @@index([userId])
   @@map("password_reset_tokens")
+}
+
+// Single-use token used when a user has lost their passkey device. On
+// request, we email a link with this token. On confirm, the user proves
+// ownership of the email; if MFA is enabled they must also present a TOTP
+// code. Success authorises the enrolment of a new passkey via a short-lived
+// challenge bound to userId.
+model PasskeyRecoveryToken {
+  id        String    @id @default(dbgenerated("gen_random_uuid()"))
+  token     String    @unique
+  userId    String
+  expiresAt DateTime
+  usedAt    DateTime?
+  ipAddress String?
+  createdAt DateTime  @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([token])
+  @@index([userId])
+  @@map("passkey_recovery_tokens")
 }
 
 // ── Multi-auth (stubs for Q3 OAuth2 + Passkeys) ─
