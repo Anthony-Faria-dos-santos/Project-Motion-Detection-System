@@ -109,6 +109,32 @@ export function setupSocketHandlers(io: SocketIOServer): void {
       }
     });
 
+    // Worker frame — forward JPEG/base64 (or presigned URL) payload to subscribers
+    socket.on('worker:frame', (data: any) => {
+      if (!(socket as any).isWorker) return;
+      if (!data?.cameraId) return;
+      io.to(`camera:${data.cameraId}`).emit('camera:frame', {
+        cameraId: data.cameraId,
+        frame: data.frame ?? null,
+        frameUrl: data.frameUrl ?? null,
+        width: data.width ?? null,
+        height: data.height ?? null,
+        fps: data.fps ?? null,
+        capturedAt: data.capturedAt ?? new Date().toISOString(),
+      });
+    });
+
+    // Worker tracks — forward active bounding boxes + track ids to subscribers
+    socket.on('worker:tracks', (data: any) => {
+      if (!(socket as any).isWorker) return;
+      if (!data?.cameraId) return;
+      io.to(`camera:${data.cameraId}`).emit('camera:tracks', {
+        cameraId: data.cameraId,
+        tracks: Array.isArray(data.tracks) ? data.tracks : [],
+        capturedAt: data.capturedAt ?? new Date().toISOString(),
+      });
+    });
+
     // Worker health — update camera status in DB
     socket.on('worker:camera_status', async (data: any) => {
       if (!(socket as any).isWorker) return;
