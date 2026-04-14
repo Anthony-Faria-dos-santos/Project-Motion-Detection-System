@@ -334,12 +334,15 @@ model SystemMetric {
 }
 
 model RefreshToken {
-  id        String    @id @default(dbgenerated("gen_random_uuid()"))
-  token     String    @unique
-  userId    String
-  expiresAt DateTime
-  revokedAt DateTime?
-  createdAt DateTime  @default(now())
+  id         String    @id @default(dbgenerated("gen_random_uuid()"))
+  token      String    @unique
+  userId     String
+  expiresAt  DateTime
+  revokedAt  DateTime?
+  createdAt  DateTime  @default(now())
+  // Activity tracking for the 30-minute idle-session timeout. Set at issuance
+  // and bumped on every successful /api/auth/refresh rotation.
+  lastUsedAt DateTime  @default(now())
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
