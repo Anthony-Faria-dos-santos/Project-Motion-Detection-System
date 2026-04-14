@@ -10,7 +10,9 @@ import { verifyCamera } from '../middleware/resource-auth';
 export const cameraRouter: ReturnType<typeof Router> = Router();
 
 // FIX 2: SSRF protection — validate sourceUrl protocol and block internal IPs
-const ALLOWED_PROTOCOLS = ['rtsp:', 'http:', 'https:'];
+const ALLOWED_PROTOCOLS = ['rtsp:', 'rtsps:', 'http:', 'https:'];
+// In production, cleartext protocols are rejected entirely (TLS required).
+const PRODUCTION_ALLOWED_PROTOCOLS = ['rtsps:', 'https:'];
 const BLOCKED_IP_RANGES = [
   /^10\./,
   /^172\.(1[6-9]|2[0-9]|3[01])\./,
@@ -22,14 +24,14 @@ const BLOCKED_IP_RANGES = [
 ];
 
 function isValidSourceUrl(url: string): boolean {
-  // Allow webcam index (integer)
-  if (/^\d+$/.test(url)) return true;
+  // Allow webcam index (integer) in dev only — in prod, physical cams must be remote over TLS.
+  if (/^\d+$/.test(url)) return process.env.NODE_ENV !== 'production';
 
   try {
     const parsed = new URL(url);
     if (!ALLOWED_PROTOCOLS.includes(parsed.protocol)) return false;
-    // Block internal IPs in production
     if (process.env.NODE_ENV === 'production') {
+      if (!PRODUCTION_ALLOWED_PROTOCOLS.includes(parsed.protocol)) return false;
       if (BLOCKED_IP_RANGES.some(r => r.test(parsed.hostname))) return false;
     }
     return true;
