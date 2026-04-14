@@ -18,6 +18,14 @@ enum Role {
   SUPER_ADMIN
 }
 
+enum UserStatus {
+  PENDING_VERIFICATION
+  ACTIVE
+  SUSPENDED
+  LOCKED
+  DELETED
+}
+
 enum CameraStatus {
   ONLINE
   OFFLINE
@@ -61,18 +69,58 @@ enum IncidentStatus {
 // ── Models ─────────────────────────────────────
 
 model User {
-  id          String   @id @default(dbgenerated("gen_random_uuid()"))
-  email       String   @unique
+  id          String     @id @default(dbgenerated("gen_random_uuid()"))
+  email       String     @unique
   displayName String
-  role        Role     @default(VIEWER)
-  status      String   @default("active")
-  supabaseId  String   @unique
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  role        Role       @default(VIEWER)
+  status      UserStatus @default(PENDING_VERIFICATION)
+  supabaseId  String     @unique
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
 
-  auditLogs     AuditLog[]
-  refreshTokens RefreshToken[]
+  // RGPD
+  termsAcceptedAt         DateTime?
+  termsVersion            String?
+  privacyPolicyAcceptedAt DateTime?
+  privacyPolicyVersion    String?
+  emailVerifiedAt         DateTime?
+  deletedAt               DateTime?
 
+  // Profile
+  firstName String?
+  lastName  String?
+  avatarUrl String?
+  locale    String  @default("en")
+  timezone  String  @default("UTC")
+
+  // Onboarding
+  onboardingCompletedAt DateTime?
+  onboardingStep        Int       @default(0)
+
+  // Security
+  mfaEnabled          Boolean   @default(false)
+  mfaEnrolledAt       DateTime?
+  failedLoginAttempts Int       @default(0)
+  lockedUntil         DateTime?
+  passwordChangedAt   DateTime?
+  lastLoginAt         DateTime?
+  lastLoginIp         String?
+
+  // Demo mode
+  isDemoAccount Boolean @default(false)
+
+  // Relations
+  auditLogs               AuditLog[]
+  refreshTokens           RefreshToken[]
+  emailVerificationTokens EmailVerificationToken[]
+  passwordResetTokens     PasswordResetToken[]
+  linkedAccounts          LinkedAccount[]
+  passkeys                Passkey[]
+  invitationsSent         UserInvitation[]         @relation("InvitedBy")
+  mfaChallenge            MfaChallenge?
+
+  @@index([status])
+  @@index([role])
   @@map("users")
 }
 
@@ -298,4 +346,143 @@ model RefreshToken {
   @@index([token])
   @@index([userId])
   @@map("refresh_tokens")
+}
+
+// ── Auth flow tokens ───────────────────────────
+
+model EmailVerificationToken {
+  id        String    @id @default(dbgenerated("gen_random_uuid()"))
+  token     String    @unique
+  userId    String
+  email     String
+  expiresAt DateTime
+  usedAt    DateTime?
+  createdAt DateTime  @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([token])
+  @@index([userId])
+  @@map("email_verification_tokens")
+}
+
+model PasswordResetToken {
+  id        String    @id @default(dbgenerated("gen_random_uuid()"))
+  token     String    @unique
+  userId    String
+  expiresAt DateTime
+  usedAt    DateTime?
+  ipAddress String?
+  createdAt DateTime  @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([token])
+  @@index([userId])
+  @@map("password_reset_tokens")
+}
+
+// ── Multi-auth (stubs for Q3 OAuth2 + Passkeys) ─
+
+model LinkedAccount {
+  id            String    @id @default(dbgenerated("gen_random_uuid()"))
+  userId        String
+  provider      String
+  providerId    String
+  providerEmail String?
+  accessToken   String?
+  refreshToken  String?
+  expiresAt     DateTime?
+  createdAt     DateTime  @default(now())
+  lastUsedAt    DateTime?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerId])
+  @@index([userId])
+  @@map("linked_accounts")
+}
+
+model Passkey {
+  id           String    @id @default(dbgenerated("gen_random_uuid()"))
+  userId       String
+  credentialId String    @unique
+  publicKey    Bytes
+  counter      BigInt    @default(0)
+  deviceName   String?
+  transports   String[]
+  createdAt    DateTime  @default(now())
+  lastUsedAt   DateTime?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@map("passkeys")
+}
+
+// ── Invitations ────────────────────────────────
+
+model UserInvitation {
+  id          String    @id @default(dbgenerated("gen_random_uuid()"))
+  email       String
+  role        Role
+  token       String    @unique
+  invitedById String
+  expiresAt   DateTime
+  acceptedAt  DateTime?
+  revokedAt   DateTime?
+  message     String?
+  createdAt   DateTime  @default(now())
+
+  invitedBy User @relation("InvitedBy", fields: [invitedById], references: [id], onDelete: Cascade)
+
+  @@index([token])
+  @@index([email])
+  @@map("user_invitations")
+}
+
+// ── MFA / TOTP ─────────────────────────────────
+
+// ── System messages (admin broadcasts to all users) ─
+
+model SystemMessage {
+  id          String    @id @default(dbgenerated("gen_random_uuid()"))
+  title       String
+  body        String
+  severity    String    @default("info") // info | warning | critical
+  createdById String
+  startsAt    DateTime  @default(now())
+  endsAt      DateTime?
+  dismissible Boolean   @default(true)
+  active      Boolean   @default(true)
+  createdAt   DateTime  @default(now())
+
+  @@index([active, startsAt])
+  @@map("system_messages")
+}
+
+// ── Feature flags (key-value DB-backed) ───────
+
+model FeatureFlag {
+  key         String   @id
+  enabled     Boolean  @default(false)
+  description String?
+  updatedAt   DateTime @updatedAt
+  updatedById String?
+
+  @@map("feature_flags")
+}
+
+model MfaChallenge {
+  id          String    @id @default(dbgenerated("gen_random_uuid()"))
+  userId      String    @unique
+  secret      String
+  verified    Boolean   @default(false)
+  backupCodes String[]
+  createdAt   DateTime  @default(now())
+  verifiedAt  DateTime?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("mfa_challenges")
 }
