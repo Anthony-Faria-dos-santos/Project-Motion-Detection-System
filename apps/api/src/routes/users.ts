@@ -432,6 +432,52 @@ userRouter.patch('/:id', authenticate, authorize('user:update'), async (req: Aut
   }
 });
 
+// ── DELETE /api/users/:userId/linked-accounts/:linkedAccountId (admin) ──
+// Same last-authentication-factor guard as the self-service /oauth/unlink:
+// blocks if removing this LinkedAccount would leave the user with zero
+// remaining factors (no other linked account, no passkey).
+
+userRouter.delete('/:userId/linked-accounts/:linkedAccountId', authenticate, authorize('user:update'), async (req: AuthenticatedRequest, res) => {
+  try {
+    const { userId, linkedAccountId } = req.params as { userId: string; linkedAccountId: string };
+    const linked = await prisma.linkedAccount.findUnique({ where: { id: linkedAccountId } });
+    if (!linked || linked.userId !== userId) {
+      return res.status(404).json({ error: { code: 'NOT_FOUND', message: 'Linked account not found for this user', retryable: false } });
+    }
+
+    const [otherLinked, passkeyCount] = await Promise.all([
+      prisma.linkedAccount.count({ where: { userId, NOT: { id: linkedAccountId } } }),
+      prisma.passkey.count({ where: { userId } }),
+    ]);
+    if (otherLinked + passkeyCount === 0) {
+      return res.status(400).json({
+        error: {
+          code: 'LAST_AUTH_FACTOR',
+          message: 'Cannot unlink the last authentication factor for this user. Have them enrol a passkey or link another provider first.',
+          retryable: false,
+        },
+      });
+    }
+
+    await prisma.linkedAccount.delete({ where: { id: linkedAccountId } });
+    await prisma.auditLog.create({
+      data: {
+        userId: req.user!.id,
+        action: 'user:linked_account_unlinked',
+        resource: 'linked_account',
+        resourceId: linkedAccountId,
+        ipAddress: getIp(req),
+        userAgent: getUserAgent(req),
+        comment: `Admin unlinked ${linked.provider} for user ${userId}`,
+      },
+    });
+    res.status(204).send();
+  } catch (err) {
+    logger.error({ err }, 'Admin unlink linked account failed');
+    res.status(500).json({ error: { code: 'SYSTEM_INTERNAL_ERROR', message: 'Failed to unlink account', retryable: true } });
+  }
+});
+
 // ── DELETE /api/users/:id (RGPD pseudonymize) ──
 
 userRouter.delete('/:id', authenticate, authorize('user:delete'), async (req: AuthenticatedRequest, res) => {
