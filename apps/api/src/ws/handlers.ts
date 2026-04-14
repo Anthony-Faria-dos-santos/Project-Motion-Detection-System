@@ -72,25 +72,30 @@ export function setupSocketHandlers(io: SocketIOServer): void {
       if (!(socket as any).isWorker) return; // only workers can emit events
 
       try {
-        const event = await prisma.event.create({
-          data: {
-            type: data.type || 'object_detected',
-            severity: (data.severity || 'info').toUpperCase() as any,
-            summary: data.summary || 'Detection event',
-            cameraId: data.cameraId,
-            metadata: data.metadata || null,
-            snapshotUrl: data.snapshotPath || null,
-            timestampStart: new Date(data.timestamp || Date.now()),
-          },
-        });
+        const [event, camera] = await Promise.all([
+          prisma.event.create({
+            data: {
+              type: data.type || 'object_detected',
+              severity: (data.severity || 'info').toUpperCase() as any,
+              summary: data.summary || 'Detection event',
+              cameraId: data.cameraId,
+              metadata: data.metadata || null,
+              snapshotUrl: data.snapshotPath || null,
+              timestampStart: new Date(data.timestamp || Date.now()),
+            },
+          }),
+          prisma.camera.findUnique({
+            where: { id: data.cameraId },
+            select: { name: true },
+          }),
+        ]);
 
-        // Broadcast to clients subscribed to this camera
         io.to(`camera:${data.cameraId}`).emit('event:new', {
           id: event.id,
           type: event.type,
           severity: event.severity.toLowerCase(),
           summary: event.summary,
-          cameraName: data.cameraId, // TODO: lookup camera name
+          cameraName: camera?.name ?? data.cameraId,
           timestampStart: event.timestampStart.toISOString(),
           reviewStatus: 'unreviewed',
           snapshotUrl: event.snapshotUrl,
