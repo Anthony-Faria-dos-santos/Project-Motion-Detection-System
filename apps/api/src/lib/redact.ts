@@ -2,7 +2,10 @@
  * Redact sensitive fields from objects before storing in audit logs.
  * Strips passwords, tokens, and credentials from URLs.
  */
-const SENSITIVE_KEYS = ['password', 'token', 'secret', 'apiKey', 'authorization'];
+// Store sensitive-key patterns in lowercase so the match compares lowercase
+// against lowercase — `key.toLowerCase().includes('apiKey')` would miss
+// `apikey` because the needle still contains a capital K.
+const SENSITIVE_KEYS = ['password', 'token', 'secret', 'apikey', 'authorization'];
 const URL_CREDENTIAL_REGEX = /(:\/\/)([^:]+):([^@]+)@/g;
 
 export function redactSensitive(obj: unknown): unknown {
