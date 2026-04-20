@@ -2,7 +2,7 @@
 
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { useEffect, useRef } from 'react';
-import { useAuthStore, markLoadingResolved } from '@/lib/store';
+import { useAuthStore } from '@/lib/store';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -31,7 +31,7 @@ function SessionRestorer() {
       // No session hint means the user was never logged in on this device —
       // skip the /auth/me round-trip and resolve the auth state so protected
       // guards can run immediately instead of flashing a spinner.
-      markLoadingResolved();
+      useAuthStore.setState({ isLoading: false });
     }
   }, [restoreSession]);
   return null;
