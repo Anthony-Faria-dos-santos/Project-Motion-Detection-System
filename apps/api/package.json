@@ -6,7 +6,7 @@
     "dev": "tsx watch -r ./env.cjs src/index.ts",
     "build": "tsc",
     "start": "node -r ./env.cjs dist/index.js",
-    "lint": "eslint src/",
+    "lint": "eslint src/ --no-error-on-unmatched-pattern",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "test:watch": "vitest",
