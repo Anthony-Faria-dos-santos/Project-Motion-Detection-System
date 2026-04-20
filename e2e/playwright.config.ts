@@ -42,7 +42,7 @@ export default defineConfig({
     : [
         {
           command: 'pnpm --filter @motionops/api dev',
-          port: 4000,
+          port: 3001,
           reuseExistingServer: !process.env.CI,
           timeout: 60_000,
         },
