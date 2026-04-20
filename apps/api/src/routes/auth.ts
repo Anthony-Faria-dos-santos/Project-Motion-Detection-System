@@ -50,11 +50,26 @@ function setAuthCookies(res: Response, accessToken: string, refreshToken: string
     maxAge: REFRESH_TOKEN_EXPIRY_MS,
     path: '/api/auth',
   });
+  // Non-HttpOnly session hint so the SPA can skip /auth/me round-trips on public pages
+  // when no session exists. Carries zero auth material on its own.
+  res.cookie('motionops_has_session', '1', {
+    httpOnly: false,
+    secure: process.env.NODE_ENV === 'production',
+    sameSite: 'strict',
+    path: '/',
+    maxAge: REFRESH_TOKEN_EXPIRY_MS,
+  });
 }
 
 function clearAuthCookies(res: Response): void {
   res.clearCookie('motionops_access', { ...COOKIE_OPTIONS });
   res.clearCookie('motionops_refresh', { ...COOKIE_OPTIONS, path: '/api/auth' });
+  res.clearCookie('motionops_has_session', {
+    httpOnly: false,
+    secure: process.env.NODE_ENV === 'production',
+    sameSite: 'strict',
+    path: '/',
+  });
 }
 
 async function issueSession(res: Response, userId: string): Promise<{ accessToken: string; refreshToken: string }> {
@@ -74,6 +89,19 @@ async function issueSession(res: Response, userId: string): Promise<{ accessToke
   });
   setAuthCookies(res, accessToken, refreshToken);
   return { accessToken, refreshToken };
+}
+
+function isSystemError(err: unknown): boolean {
+  if (!err || typeof err !== 'object') return false;
+  const name = (err as { name?: string }).name ?? '';
+  const code = (err as { code?: string }).code ?? '';
+  // Prisma connection-layer failures, generic network errors, or raw fatal messages
+  // we shouldn't silently swallow as "success" to the caller.
+  if (name === 'PrismaClientInitializationError') return true;
+  if (name === 'PrismaClientRustPanicError') return true;
+  if (code === 'P1001' || code === 'P1002' || code === 'P1017') return true; // can't reach / timeout / lost connection
+  if (code === 'ECONNREFUSED' || code === 'ETIMEDOUT' || code === 'ENOTFOUND') return true;
+  return false;
 }
 
 function userSessionView(user: { id: string; email: string; displayName: string; role: string; updatedAt: Date; lastLoginAt: Date | null; mfaEnabled: boolean; status: UserStatus; onboardingStep: number; onboardingCompletedAt: Date | null; isDemoAccount: boolean }) {
@@ -254,7 +282,18 @@ authRouter.post('/signup', async (req: Request, res: Response) => {
     return res.status(202).json({ message: 'If the email is allowed and not already registered, a verification email will be sent.' });
   } catch (err) {
     logger.error({ err }, 'Signup failed');
-    // Account enumeration defense
+    // System errors (DB unreachable, Supabase down) must surface — masking them as 202
+    // left users hanging forever waiting for a verification email that never ships.
+    // Enumeration defense only covers business-logic branches above.
+    if (isSystemError(err)) {
+      return res.status(503).json({
+        error: {
+          code: 'SYSTEM_UNAVAILABLE',
+          message: 'Account service is temporarily unavailable. Please retry in a few minutes.',
+          retryable: true,
+        },
+      });
+    }
     return res.status(202).json({ message: 'If the email is allowed and not already registered, a verification email will be sent.' });
   }
 });
