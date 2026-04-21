@@ -1,0 +1,34 @@
+[
+  {
+    "offsetSec": 4,
+    "type": "motion_detected",
+    "severity": "INFO",
+    "summary": "Motion detected near entrance",
+    "objectClass": "person",
+    "box": [120, 80, 60, 160]
+  },
+  {
+    "offsetSec": 12,
+    "type": "person_detected",
+    "severity": "LOW",
+    "summary": "Person approaching the door",
+    "objectClass": "person",
+    "box": [200, 100, 80, 200]
+  },
+  {
+    "offsetSec": 28,
+    "type": "unauthorized_access",
+    "severity": "HIGH",
+    "summary": "Tailgating suspected after badge scan",
+    "objectClass": "person",
+    "box": [340, 90, 70, 190]
+  },
+  {
+    "offsetSec": 45,
+    "type": "person_detected",
+    "severity": "INFO",
+    "summary": "Authorized entry confirmed",
+    "objectClass": "person",
+    "box": [160, 110, 75, 185]
+  }
+]
