@@ -1,0 +1,18 @@
+[
+  {
+    "offsetSec": 15,
+    "type": "motion_detected",
+    "severity": "LOW",
+    "summary": "Slight motion near rack 2 — feed quality DEGRADED",
+    "objectClass": "unknown",
+    "box": [220, 140, 40, 120]
+  },
+  {
+    "offsetSec": 42,
+    "type": "unauthorized_access",
+    "severity": "CRITICAL",
+    "summary": "Unexpected presence in restricted server area",
+    "objectClass": "person",
+    "box": [300, 120, 65, 180]
+  }
+]
