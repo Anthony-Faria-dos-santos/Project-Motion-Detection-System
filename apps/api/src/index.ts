@@ -25,6 +25,7 @@ import { gdprRouter } from './routes/gdpr';
 import { dashboardRouter } from './routes/dashboard';
 import { devRouter } from './routes/_dev';
 import { setupSocketHandlers } from './ws/handlers';
+import { initDemoSimulator } from './lib/demo-simulator';
 
 // FIX 10: Validate required env vars at startup
 validateEnv();
@@ -119,6 +120,7 @@ app.use('/api/dashboard', dashboardRouter);
 app.use('/api/_dev', devRouter);
 
 // WebSocket
+initDemoSimulator(io);
 setupSocketHandlers(io);
 
 const PORT = parseInt(process.env.API_PORT || '3001', 10);
