@@ -2,6 +2,7 @@ import { Router } from 'express';
 import { prisma } from '../lib/prisma';
 import { logger } from '../lib/logger';
 import { authenticate, type AuthenticatedRequest } from '../middleware/auth';
+import { UserStatus } from '@prisma/client';
 
 export const gdprRouter: ReturnType<typeof Router> = Router();
 
@@ -67,7 +68,7 @@ gdprRouter.get('/export', authenticate, async (req: AuthenticatedRequest, res) =
       format: 'MotionOps GDPR Export v1',
       exportDate: new Date().toISOString(),
       user: user ? { email: user.email, displayName: user.displayName, role: user.role, createdAt: user.createdAt.toISOString() } : null,
-      activityLog: auditLogs.map(a => ({
+      auditLogs: auditLogs.map(a => ({
         date: a.createdAt.toISOString(),
         action: a.action,
         resource: a.resource,
@@ -97,7 +98,11 @@ gdprRouter.delete('/me', authenticate, async (req: AuthenticatedRequest, res) =>
       data: {
         email: `${pseudonym}@deleted.motionops.local`,
         displayName: 'Deleted User',
-        status: 'deleted',
+        firstName: null,
+        lastName: null,
+        avatarUrl: null,
+        status: UserStatus.DELETED,
+        deletedAt: new Date(),
       },
     });
 
