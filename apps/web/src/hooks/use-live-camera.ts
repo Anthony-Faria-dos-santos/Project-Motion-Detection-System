@@ -31,6 +31,23 @@ export interface LiveTracksPayload {
   capturedAt: string;
 }
 
+export interface DemoFeedScriptItem {
+  offsetSec: number;
+  type: string;
+  severity: 'INFO' | 'LOW' | 'MEDIUM' | 'HIGH' | 'CRITICAL';
+  summary: string;
+  objectClass: string;
+  box: [number, number, number, number];
+}
+
+export interface DemoFeed {
+  cameraId: string;
+  clipUrl: string;
+  loopDurationMs: number;
+  loopStartEpoch: number;
+  script: DemoFeedScriptItem[];
+}
+
 /**
  * Subscribe to the realtime feed of a single camera and expose the latest
  * frame + detected tracks. Returns `null` for `frame` or `tracks` until the
@@ -43,6 +60,7 @@ export interface LiveTracksPayload {
 export function useLiveCamera(cameraId: string | null) {
   const [frame, setFrame] = useState<LiveFrame | null>(null);
   const [tracks, setTracks] = useState<LiveTracksPayload | null>(null);
+  const [demoFeed, setDemoFeed] = useState<DemoFeed | null>(null);
 
   useEffect(() => {
     if (!cameraId) return;
@@ -56,21 +74,26 @@ export function useLiveCamera(cameraId: string | null) {
       if (payload.cameraId !== cameraId) return;
       setTracks(payload);
     };
+    const onDemoFeed = (payload: DemoFeed) => {
+      if (payload.cameraId !== cameraId) return;
+      setDemoFeed(payload);
+    };
 
     socket.emit('camera:subscribe', { cameraId });
     socket.on('camera:frame', onFrame);
     socket.on('camera:tracks', onTracks);
+    socket.on('camera:demo_feed', onDemoFeed);
 
     return () => {
       socket.emit('camera:unsubscribe', { cameraId });
       socket.off('camera:frame', onFrame);
       socket.off('camera:tracks', onTracks);
-      // Clear last-known payloads so a remount on a different camera doesn't
-      // briefly flash the previous feed.
+      socket.off('camera:demo_feed', onDemoFeed);
       setFrame(null);
       setTracks(null);
+      setDemoFeed(null);
     };
   }, [cameraId]);
 
-  return { frame, tracks };
+  return { frame, tracks, demoFeed };
 }
