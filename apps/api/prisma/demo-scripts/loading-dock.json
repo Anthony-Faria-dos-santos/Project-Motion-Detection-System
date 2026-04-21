@@ -1,0 +1,34 @@
+[
+  {
+    "offsetSec": 8,
+    "type": "vehicle_detected",
+    "severity": "INFO",
+    "summary": "Truck backing into dock 3",
+    "objectClass": "truck",
+    "box": [100, 160, 260, 180]
+  },
+  {
+    "offsetSec": 22,
+    "type": "package_dropped",
+    "severity": "MEDIUM",
+    "summary": "Package left unattended on the dock floor",
+    "objectClass": "package",
+    "box": [220, 280, 60, 50]
+  },
+  {
+    "offsetSec": 38,
+    "type": "person_after_hours",
+    "severity": "HIGH",
+    "summary": "Person on dock outside scheduled delivery window",
+    "objectClass": "person",
+    "box": [360, 140, 75, 185]
+  },
+  {
+    "offsetSec": 54,
+    "type": "motion_detected",
+    "severity": "LOW",
+    "summary": "Dock gate closed after loading",
+    "objectClass": "vehicle",
+    "box": [80, 200, 200, 160]
+  }
+]
