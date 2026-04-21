@@ -18,6 +18,7 @@ import { healthRouter } from '../../../src/routes/health';
 import { auditRouter } from '../../../src/routes/audit';
 import { gdprRouter } from '../../../src/routes/gdpr';
 import { dashboardRouter } from '../../../src/routes/dashboard';
+import { devRouter } from '../../../src/routes/_dev';
 
 export interface TestApp {
   app: Express;
@@ -55,6 +56,7 @@ export async function startTestApp(): Promise<TestApp> {
   app.use('/api/audit', auditRouter);
   app.use('/api/gdpr', gdprRouter);
   app.use('/api/dashboard', dashboardRouter);
+  app.use('/api/_dev', devRouter);
 
   const server = createServer(app);
   await new Promise<void>((resolve) => server.listen(0, resolve));
