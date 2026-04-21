@@ -3,6 +3,7 @@ import jwt from 'jsonwebtoken';
 import { prisma } from '../lib/prisma';
 import { logger } from '../lib/logger';
 import { getPermissionsForRole } from '../lib/permissions';
+import { getDemoSimulator } from '../lib/demo-simulator';
 
 export function setupSocketHandlers(io: SocketIOServer): void {
   // S2: WebSocket authentication middleware
@@ -31,7 +32,7 @@ export function setupSocketHandlers(io: SocketIOServer): void {
   io.on('connection', (socket) => {
     logger.info({ socketId: socket.id, isWorker: !!(socket as any).isWorker }, 'Client connected');
 
-    socket.on('camera:subscribe', ({ cameraId }: { cameraId: string }) => {
+    socket.on('camera:subscribe', async ({ cameraId }: { cameraId: string }) => {
       // Workers can always subscribe; users need camera:read permission
       if (!(socket as any).isWorker) {
         const user = (socket as any).user;
@@ -43,10 +44,17 @@ export function setupSocketHandlers(io: SocketIOServer): void {
       }
       socket.join(`camera:${cameraId}`);
       logger.info({ socketId: socket.id, cameraId }, 'Subscribed to camera');
+
+      const demo = getDemoSimulator();
+      if (demo && !(socket as any).isWorker) {
+        await demo.registerSubscription(socket.id, cameraId);
+      }
     });
 
     socket.on('camera:unsubscribe', ({ cameraId }: { cameraId: string }) => {
       socket.leave(`camera:${cameraId}`);
+      const demo = getDemoSimulator();
+      if (demo) demo.unregisterSubscription(socket.id, cameraId);
     });
 
     socket.on('admin:subscribe', () => {
@@ -157,6 +165,8 @@ export function setupSocketHandlers(io: SocketIOServer): void {
     });
 
     socket.on('disconnect', () => {
+      const demo = getDemoSimulator();
+      if (demo) demo.disconnectSocket(socket.id);
       logger.info({ socketId: socket.id }, 'Client disconnected');
     });
   });
