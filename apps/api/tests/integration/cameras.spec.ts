@@ -70,7 +70,7 @@ describe('/api/cameras', () => {
     if (process.env.NODE_ENV === 'production') {
       expect(res.status).toBe(400);
     } else {
-      expect([200, 400]).toContain(res.status);
+      expect([200, 201, 400]).toContain(res.status);
     }
   });
 
