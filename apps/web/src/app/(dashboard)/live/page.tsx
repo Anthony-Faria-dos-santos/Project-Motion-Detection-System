@@ -24,8 +24,9 @@
  * data can be a type-safe drop-in.
  */
 
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useLiveCamera } from '@/hooks/use-live-camera';
+import { useCameras } from '@/hooks/use-api';
 import {
   // Generic
   KpiCard,
@@ -89,15 +90,49 @@ const KEYBOARD_HINTS = [
   { keys: 'Space', label: 'Pause' },
 ];
 
+const SEVERITY_TO_TONE: Record<string, 'critical' | 'warning' | 'info' | 'success'> = {
+  CRITICAL: 'critical',
+  HIGH: 'critical',
+  MEDIUM: 'warning',
+  LOW: 'info',
+  INFO: 'info',
+};
+
+const CAMERA_STATUS_TO_RAIL_STATUS: Record<string, 'live' | 'alert' | 'offline'> = {
+  ONLINE: 'live',
+  DEGRADED: 'alert',
+  BUFFERING: 'alert',
+  RECONNECTING: 'alert',
+  PAUSED: 'offline',
+  OFFLINE: 'offline',
+};
+
 export default function LiveMonitoringPage() {
+  const { data: apiCameras } = useCameras({ limit: 50 });
+  const railCameras = useMemo(() => {
+    if (!apiCameras?.data?.length) return mockCameras;
+    return apiCameras.data.map((c) => ({
+      id: c.id,
+      name: c.name,
+      status: CAMERA_STATUS_TO_RAIL_STATUS[c.status as string] ?? 'offline',
+      fps: c.fps ?? null,
+    }));
+  }, [apiCameras]);
+
   const [activeCameraId, setActiveCameraId] = useState<string>(mockActiveCameraId);
   const [activeOverlays, setActiveOverlays] = useState<Set<string>>(
     () => new Set(['boxes', 'labels', 'zones']),
   );
 
+  useEffect(() => {
+    if (railCameras.length && !railCameras.find((c) => c.id === activeCameraId)) {
+      setActiveCameraId(railCameras[0]!.id);
+    }
+  }, [railCameras, activeCameraId]);
+
   const activeCamera = useMemo(
-    () => mockCameras.find((c) => c.id === activeCameraId) ?? mockCameras[0]!,
-    [activeCameraId],
+    () => railCameras.find((c) => c.id === activeCameraId) ?? railCameras[0]!,
+    [activeCameraId, railCameras],
   );
 
   const hasCriticalEvent = useMemo(
@@ -109,7 +144,24 @@ export default function LiveMonitoringPage() {
   const showZones = activeOverlays.has('zones');
   const showTracks = activeOverlays.has('tracks');
 
-  const { frame: liveFrame, tracks: liveTracks } = useLiveCamera(activeCameraId);
+  const { frame: liveFrame, tracks: liveTracks, demoFeed } = useLiveCamera(activeCameraId);
+  const isImageClip = demoFeed?.clipUrl
+    ? /\.(jpg|jpeg|png|webp|avif)(\?.*)?$/i.test(demoFeed.clipUrl)
+    : false;
+  const isVideoClip = demoFeed?.clipUrl
+    ? /\.(mp4|webm|mov)(\?.*)?$/i.test(demoFeed.clipUrl)
+    : false;
+
+  const demoTimelineEvents = useMemo(() => {
+    if (!demoFeed?.script) return null;
+    const loopSec = demoFeed.loopDurationMs / 1000;
+    return demoFeed.script.map((s) => ({
+      id: `demo-${s.offsetSec}`,
+      leftPercent: Math.max(0, Math.min(100, (s.offsetSec / loopSec) * 100)),
+      severity: SEVERITY_TO_TONE[s.severity] ?? 'info',
+      label: s.summary,
+    }));
+  }, [demoFeed]);
 
   // Prefer live worker boxes; fall back to the mock set if the feed is silent.
   const boundingBoxes = liveTracks?.tracks.length
@@ -163,10 +215,10 @@ export default function LiveMonitoringPage() {
       >
         <div>
           <div className="mb-[var(--mo-space-2)] px-[var(--mo-space-3)] text-[11px] font-medium uppercase tracking-[0.08em] text-[var(--mo-fg-muted)]">
-            Cameras · {mockCameras.length}
+            Cameras · {railCameras.length}
           </div>
           <div className="flex flex-col gap-[var(--mo-space-1)]">
-            {mockCameras.map((cam) => (
+            {railCameras.map((cam) => (
               <CameraListItem
                 key={cam.id}
                 name={cam.name}
@@ -220,6 +272,39 @@ export default function LiveMonitoringPage() {
               alt={`Live feed of ${activeCamera.name}`}
               className="absolute inset-0 h-full w-full object-cover"
             />
+          )}
+
+          {/* Demo feed — static image or looping video behind the SVG overlays.
+              The backend DemoSimulator emits camera:demo_feed with a clipUrl
+              pointing at a JPG/PNG/MP4 in /public/demo/clips, plus a scripted
+              event timeline that drives the bounding boxes + event stream. */}
+          {demoFeed?.clipUrl && isImageClip && (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img
+              src={demoFeed.clipUrl}
+              alt={`Demo feed for ${activeCamera.name}`}
+              className="absolute inset-0 h-full w-full object-cover"
+              style={{ filter: 'contrast(1.08) saturate(0.85) brightness(0.95)' }}
+            />
+          )}
+          {demoFeed?.clipUrl && isVideoClip && (
+            <video
+              src={demoFeed.clipUrl}
+              autoPlay
+              loop
+              muted
+              playsInline
+              className="absolute inset-0 h-full w-full object-cover"
+              style={{ filter: 'contrast(1.08) saturate(0.85) brightness(0.95)' }}
+            />
+          )}
+          {demoFeed?.clipUrl && (
+            <div
+              className="pointer-events-none absolute right-3 top-3 z-10 flex items-center gap-2 rounded-[var(--mo-radius-sm)] bg-black/60 px-2 py-1 font-mono text-[11px] tracking-wider text-red-300 backdrop-blur-sm"
+            >
+              <span className="inline-block h-2 w-2 animate-pulse rounded-full bg-red-500" />
+              REC
+            </div>
           )}
 
           {/* Fake video scene — reproduced from the mockup SVG.
@@ -419,9 +504,9 @@ export default function LiveMonitoringPage() {
       <div className="min-w-0" style={{ gridArea: 'timeline' }}>
         <TimelineTrack
           className="h-full"
-          rangeLabel="14:00 → 15:00 · Cam 02"
+          rangeLabel={demoFeed ? `Loop · ${Math.round(demoFeed.loopDurationMs / 1000)}s · ${activeCamera.name}` : '14:00 → 15:00 · Cam 02'}
           ticks={mockTimelineTicks}
-          events={mockTimelineEvents}
+          events={demoTimelineEvents ?? mockTimelineEvents}
           currentPercent={mockCurrentTimelinePercent}
         />
       </div>
