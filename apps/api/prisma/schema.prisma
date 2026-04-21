@@ -143,6 +143,13 @@ model Camera {
   createdAt       DateTime     @default(now())
   updatedAt       DateTime     @updatedAt
 
+  // Demo / sample camera: when demoClipUrl is set, the DemoSimulator takes
+  // over this camera's live feed — emits scripted tracks + events in sync
+  // with the clip loop instead of relying on a Python worker.
+  demoClipUrl      String?
+  demoEventScript  Json?
+  isSampleCamera   Boolean     @default(false)
+
   activeProfile SceneProfile?  @relation("ActiveProfile", fields: [activeProfileId], references: [id])
   events        Event[]
   zones         Zone[]
