@@ -1,12 +1,9 @@
 import { defineConfig } from 'vitest/config';
 
 /**
- * Integration tests hit a real Postgres. Run via `pnpm test:integration`
- * with a `DATABASE_URL` that points at an isolated test database.
- *
- * Suites are serialised (threads: false) so the shared DB reset in
- * `helpers/db.ts` can't race between files. For parallel runs, switch to
- * pg-mem or a per-suite schema.
+ * Integration tests hit a real Postgres on the test_integration schema.
+ * Files must run sequentially — each file's beforeEach truncates the shared
+ * schema, so parallel files would trample each other's state.
  */
 export default defineConfig({
   test: {
@@ -14,12 +11,9 @@ export default defineConfig({
     globals: true,
     include: ['tests/integration/**/*.spec.ts'],
     setupFiles: ['./tests/integration/helpers/env.setup.ts'],
-    pool: 'threads',
-    poolOptions: {
-      threads: {
-        singleThread: true,
-      },
-    },
+    fileParallelism: false,
+    maxWorkers: 1,
+    minWorkers: 1,
     testTimeout: 20_000,
     hookTimeout: 20_000,
   },
