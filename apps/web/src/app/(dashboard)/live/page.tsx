@@ -27,6 +27,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useLiveCamera } from '@/hooks/use-live-camera';
 import { useCameras } from '@/hooks/use-api';
+import { getSocket } from '@/lib/socket-client';
 import {
   // Generic
   KpiCard,
@@ -162,6 +163,47 @@ export default function LiveMonitoringPage() {
       label: s.summary,
     }));
   }, [demoFeed]);
+
+  const [liveEventStream, setLiveEventStream] = useState<
+    Array<{ id: string; severity: 'critical' | 'warning' | 'info' | 'success'; type: string; time: string; meta: string }>
+  >([]);
+
+  useEffect(() => {
+    if (!activeCameraId) return;
+    const socket = getSocket();
+    const onEventNew = (payload: {
+      id: string;
+      severity: string;
+      type: string;
+      summary: string;
+      cameraName?: string;
+      timestampStart: string;
+      objectClass?: string | null;
+    }) => {
+      setLiveEventStream((prev) =>
+        [
+          {
+            id: payload.id,
+            severity: SEVERITY_TO_TONE[payload.severity.toUpperCase()] ?? 'info',
+            type: payload.type,
+            time: 'just now',
+            meta: [payload.cameraName, payload.objectClass].filter(Boolean).join(' · ') || payload.summary,
+          },
+          ...prev,
+        ].slice(0, 20),
+      );
+    };
+    socket.on('event:new', onEventNew);
+    return () => {
+      socket.off('event:new', onEventNew);
+    };
+  }, [activeCameraId]);
+
+  useEffect(() => {
+    setLiveEventStream([]);
+  }, [activeCameraId]);
+
+  const eventStream = liveEventStream.length ? liveEventStream : mockEventStream;
 
   // Prefer live worker boxes; fall back to the mock set if the feed is silent.
   const boundingBoxes = liveTracks?.tracks.length
@@ -553,11 +595,11 @@ export default function LiveMonitoringPage() {
           <div className="flex items-center gap-[var(--mo-space-2)] text-[11px] font-medium uppercase tracking-[0.08em] text-[var(--mo-fg-muted)]">
             Event Stream
             <span className="ml-auto rounded-[var(--mo-radius-full)] bg-[var(--mo-bg-input)] px-2 py-[2px] font-mono text-[10px]">
-              {mockEventStream.length} new
+              {eventStream.length} new
             </span>
           </div>
           <div className="flex flex-col gap-[var(--mo-space-2)]">
-            {mockEventStream.map((evt) => (
+            {eventStream.map((evt) => (
               <EventCard
                 key={evt.id}
                 severity={evt.severity}
