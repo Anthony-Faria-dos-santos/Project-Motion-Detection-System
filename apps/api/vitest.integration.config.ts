@@ -13,6 +13,7 @@ export default defineConfig({
     environment: 'node',
     globals: true,
     include: ['tests/integration/**/*.spec.ts'],
+    setupFiles: ['./tests/integration/helpers/env.setup.ts'],
     pool: 'threads',
     poolOptions: {
       threads: {
