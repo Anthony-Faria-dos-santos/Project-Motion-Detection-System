@@ -181,7 +181,12 @@ export class DemoSimulator {
             id: `demo-${scripted.offsetSec}`,
             className: scripted.objectClass,
             confidence: 0.92,
-            box: scripted.box,
+            box: {
+              x: scripted.box[0],
+              y: scripted.box[1],
+              w: scripted.box[2],
+              h: scripted.box[3],
+            },
           },
         ],
         capturedAt: new Date().toISOString(),
