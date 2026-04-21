@@ -1,6 +1,16 @@
 import { describe, it, expect, beforeAll, beforeEach, afterAll } from 'vitest';
 import { startTestApp, type TestApp } from './helpers/app';
 import { resetDatabase, prisma } from './helpers/db';
+import { purgeSupabaseTestUsers } from './helpers/supabase';
+
+const SIGNUP_TEST_EMAILS = [
+  'alice@motionops.local',
+  'carol@motionops.local',
+  'weak@motionops.local',
+  'unknown@random-domain.test',
+  'owner@motionops.local',
+  'owner+dup@motionops.local',
+];
 
 /**
  * Integration coverage for POST /api/auth/signup — the 5 branches called out
@@ -32,6 +42,7 @@ describe('POST /api/auth/signup', () => {
 
   beforeEach(async () => {
     await resetDatabase();
+    await purgeSupabaseTestUsers(SIGNUP_TEST_EMAILS);
   });
 
   it('creates a PENDING_VERIFICATION user on the happy path', async () => {
