@@ -23,6 +23,7 @@ import { healthRouter } from './routes/health';
 import { auditRouter } from './routes/audit';
 import { gdprRouter } from './routes/gdpr';
 import { dashboardRouter } from './routes/dashboard';
+import { devRouter } from './routes/_dev';
 import { setupSocketHandlers } from './ws/handlers';
 
 // FIX 10: Validate required env vars at startup
@@ -115,6 +116,7 @@ app.use('/api/health', healthRouter);
 app.use('/api/audit', auditRouter);
 app.use('/api/gdpr', gdprRouter);
 app.use('/api/dashboard', dashboardRouter);
+app.use('/api/_dev', devRouter);
 
 // WebSocket
 setupSocketHandlers(io);
