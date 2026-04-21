@@ -31,7 +31,10 @@ const prisma = new PrismaClient();
 const DEMO_EMAIL = 'demo@motionops.local';
 const DEMO_DISPLAY_NAME = 'Demo User';
 const CLIPS_BASE_URL = process.env.DEMO_CLIPS_BASE_URL || 'http://localhost:3000';
-const CLIP_PATH = (name: string) => `${CLIPS_BASE_URL}/demo/clips/${name}.mp4`;
+// Accept any filename+extension so the demo can swap between a static JPG
+// (Option 3 — image + scripted overlays) and a looping MP4 later without
+// changing the helper.
+const CLIP_PATH = (filename: string) => `${CLIPS_BASE_URL}/demo/clips/${filename}`;
 
 async function main() {
   console.log('🎬 Seeding demo account…');
@@ -82,7 +85,7 @@ async function main() {
         latencyMs: 180,
         lastHeartbeat: new Date(),
         lastFrameAt: new Date(),
-        demoClipUrl: CLIP_PATH('entrance'),
+        demoClipUrl: CLIP_PATH('entrance.jpg'),
         demoEventScript: entranceScript,
       },
     }),
@@ -97,7 +100,7 @@ async function main() {
         latencyMs: 240,
         lastHeartbeat: new Date(),
         lastFrameAt: new Date(),
-        demoClipUrl: CLIP_PATH('parking'),
+        demoClipUrl: CLIP_PATH('parking.jpg'),
         demoEventScript: parkingScript,
       },
     }),
@@ -112,7 +115,7 @@ async function main() {
         latencyMs: 520,
         lastHeartbeat: new Date(Date.now() - 8 * 60 * 1000),
         lastFrameAt: new Date(Date.now() - 9 * 60 * 1000),
-        demoClipUrl: CLIP_PATH('loading-dock'),
+        demoClipUrl: CLIP_PATH('loading-dock.jpg'),
         demoEventScript: loadingDockScript,
       },
     }),
@@ -127,7 +130,7 @@ async function main() {
         latencyMs: 0,
         lastHeartbeat: new Date(Date.now() - 2 * 60 * 60 * 1000),
         lastFrameAt: new Date(Date.now() - 2 * 60 * 60 * 1000),
-        demoClipUrl: CLIP_PATH('server-room'),
+        demoClipUrl: CLIP_PATH('server-room.jpg'),
         demoEventScript: serverRoomScript,
       },
     }),
