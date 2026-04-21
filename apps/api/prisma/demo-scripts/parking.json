@@ -1,0 +1,34 @@
+[
+  {
+    "offsetSec": 6,
+    "type": "vehicle_detected",
+    "severity": "INFO",
+    "summary": "Vehicle entering north lot",
+    "objectClass": "car",
+    "box": [80, 220, 140, 90]
+  },
+  {
+    "offsetSec": 18,
+    "type": "vehicle_detected",
+    "severity": "INFO",
+    "summary": "Vehicle parked in visitor spot",
+    "objectClass": "car",
+    "box": [260, 180, 150, 100]
+  },
+  {
+    "offsetSec": 33,
+    "type": "vehicle_loitering",
+    "severity": "MEDIUM",
+    "summary": "Vehicle idling for over 5 minutes near exit",
+    "objectClass": "car",
+    "box": [420, 200, 150, 95]
+  },
+  {
+    "offsetSec": 52,
+    "type": "person_detected",
+    "severity": "LOW",
+    "summary": "Pedestrian crossing the main aisle",
+    "objectClass": "person",
+    "box": [300, 120, 50, 140]
+  }
+]
