@@ -1,0 +1,81 @@
+# MotionOps — actions/labeler v5 config
+# Maps changed file globs to labels. Used by .github/workflows/labeler.yml.
+# Docs: https://github.com/actions/labeler
+
+"area:api":
+  - changed-files:
+      - any-glob-to-any-file:
+          - 'apps/api/**'
+
+"area:web":
+  - changed-files:
+      - any-glob-to-any-file:
+          - 'apps/web/**'
+
+"area:worker-cv":
+  - changed-files:
+      - any-glob-to-any-file:
+          - 'apps/worker-cv/**'
+
+"area:packages":
+  - changed-files:
+      - any-glob-to-any-file:
+          - 'packages/**'
+
+"area:e2e":
+  - changed-files:
+      - any-glob-to-any-file:
+          - 'e2e/**'
+          - 'playwright.config.*'
+
+"area:ci":
+  - changed-files:
+      - any-glob-to-any-file:
+          - '.github/**'
+
+"area:infra":
+  - changed-files:
+      - any-glob-to-any-file:
+          - 'docker-compose*.yml'
+          - '**/Dockerfile'
+          - '**/Dockerfile.*'
+          - '**/.dockerignore'
+
+"area:docs":
+  - changed-files:
+      - any-glob-to-any-file:
+          - '**/*.md'
+          - 'docs/**'
+          - 'SECURITY.md'
+          - 'README.md'
+          - 'LICENSE'
+
+dependencies:
+  - changed-files:
+      - any-glob-to-any-file:
+          - '**/package.json'
+          - '**/pnpm-lock.yaml'
+          - 'pnpm-workspace.yaml'
+          - '**/requirements*.txt'
+          - '**/pyproject.toml'
+          - '**/poetry.lock'
+
+"type:test":
+  - changed-files:
+      - any-glob-to-any-file:
+          - '**/*.test.ts'
+          - '**/*.test.tsx'
+          - '**/*.spec.ts'
+          - '**/*.spec.tsx'
+          - '**/test/**'
+          - '**/tests/**'
+          - '**/__tests__/**'
+          - 'e2e/**'
+
+"type:security":
+  - changed-files:
+      - any-glob-to-any-file:
+          - 'SECURITY.md'
+          - '.github/workflows/codeql.yml'
+          - '.github/workflows/dep-review.yml'
+          - '.github/dependabot.yml'
