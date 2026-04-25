@@ -1,4 +1,4 @@
-FROM node:22-alpine AS base
+FROM node:25-alpine AS base
 RUN corepack enable && corepack prepare pnpm@9.15.4 --activate
 
 FROM base AS deps
@@ -16,7 +16,7 @@ COPY packages/types packages/types
 COPY tsconfig.base.json .
 RUN pnpm --filter @motionops/api build
 
-FROM node:22-alpine AS runner
+FROM node:25-alpine AS runner
 WORKDIR /app
 COPY --from=build /app/apps/api/dist ./dist
 COPY --from=build /app/apps/api/package.json .
