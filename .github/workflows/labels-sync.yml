@@ -2,6 +2,11 @@
 # Runs on changes to the labels file (main) and can be triggered manually.
 # A "dry-run" run is performed on PRs that touch labels.yml so changes
 # can be reviewed before being applied.
+#
+# IMPORTANT: skip-delete is set to "true" for the initial rollout so that
+# pre-existing repo labels (Dependabot defaults, GitHub defaults, etc.) are
+# preserved. Once the labels.yml file is the source of truth, switch this
+# to "false" to let the sync prune labels that are not declared.
 
 name: Labels sync
 
@@ -38,4 +43,4 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           yaml-file: .github/labels.yml
           dry-run: ${{ github.event_name == 'pull_request' }}
-          skip-delete: false
+          skip-delete: true
