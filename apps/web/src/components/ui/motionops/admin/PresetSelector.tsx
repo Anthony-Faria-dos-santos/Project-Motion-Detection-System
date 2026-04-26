@@ -42,7 +42,6 @@ export const PresetSelector: FC<PresetSelectorProps> = ({
               <button
                 type="button"
                 role="option"
-                aria-pressed={isActive}
                 aria-selected={isActive}
                 onClick={() => onSelect(preset.id)}
                 className={cn(
