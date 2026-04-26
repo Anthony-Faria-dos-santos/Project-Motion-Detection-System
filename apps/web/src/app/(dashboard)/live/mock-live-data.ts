@@ -246,14 +246,14 @@ export const mockKpis: MockKpi[] = [
     label: 'Confirmed',
     value: 8,
     trend: '↑ 3 today',
-    trendDirection: 'down',
+    trendDirection: 'up',
     tone: 'primary',
   },
   {
     label: 'False +',
     value: 22,
     trend: '↓ 18% vs baseline',
-    trendDirection: 'up',
+    trendDirection: 'down',
     tone: 'warning',
   },
   {
