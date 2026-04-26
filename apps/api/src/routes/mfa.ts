@@ -32,7 +32,7 @@ function setAuthCookies(res: Response, accessToken: string, refreshToken: string
 }
 
 const verifySchema = z.object({ code: z.string().min(6).max(10) });
-const disableSchema = z.object({ code: z.string().min(6).max(10) });
+const disableSchema = z.object({ code: z.string().min(6).max(15) });
 const loginMfaSchema = z.object({
   challengeToken: z.string().min(10).max(2000),
   code: z.string().min(6).max(15),
