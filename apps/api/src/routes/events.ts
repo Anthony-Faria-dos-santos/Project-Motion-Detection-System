@@ -65,7 +65,7 @@ eventRouter.get('/', authenticate, async (req, res) => {
         cameraId: e.cameraId,
         cameraName: e.camera.name,
         timestampStart: e.timestampStart.toISOString(),
-        reviewStatus: e.reviewStatus.toLowerCase().replace('_', '_'),
+        reviewStatus: e.reviewStatus.toLowerCase().replace('_', '-'),
         snapshotUrl: e.snapshotUrl,
         objectClass: (e.metadata as any)?.className || null,
         confidence: (e.metadata as any)?.confidence || null,
