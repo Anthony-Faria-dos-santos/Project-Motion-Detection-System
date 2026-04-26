@@ -330,13 +330,13 @@ async function tryBackupCode(hashedCodes: string[], code: string, userId: string
 
 /**
  * Helper used by /login route to issue a challenge token if MFA is enrolled.
- * Returns a JWT valid for 5 minutes that the client must POST back to /login/mfa.
+ * Returns a JWT valid for the configured MFA challenge TTL that the client must POST back to /login/mfa.
  */
 export function issueMfaChallenge(userId: string): string {
   return jwt.sign(
     { sub: userId, mfa: 'pending' },
     process.env.JWT_SECRET!,
-    { expiresIn: '5m' },
+    { expiresIn: Math.floor(MFA_CHALLENGE_TTL_MS / 1000) },
   );
 }
 export const MFA_CHALLENGE_TTL = MFA_CHALLENGE_TTL_MS;
