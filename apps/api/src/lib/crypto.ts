@@ -9,10 +9,14 @@ function getKey(): Buffer {
   if (!hex) {
     throw new Error('MFA_ENCRYPTION_KEY env var is required for MFA operations');
   }
-  if (hex.length !== 64) {
+  if (!/^[0-9a-fA-F]{64}$/.test(hex)) {
     throw new Error('MFA_ENCRYPTION_KEY must be exactly 64 hex characters (32 bytes)');
   }
-  return Buffer.from(hex, 'hex');
+  const key = Buffer.from(hex, 'hex');
+  if (key.length !== 32) {
+    throw new Error('MFA_ENCRYPTION_KEY must decode to exactly 32 bytes');
+  }
+  return key;
 }
 
 /**
