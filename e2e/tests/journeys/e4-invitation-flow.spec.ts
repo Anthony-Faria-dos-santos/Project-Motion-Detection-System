@@ -7,7 +7,9 @@ import { test, expect } from '@playwright/test';
  *
  * Backend prerequisites (live):
  *   - `/api/_dev/seed-verified-user`, `/api/_dev/invitation-token`.
- *   - `/api/admin/invitations` (create) and the accept-invitation flow.
+ *   - `POST /api/users/invite` (create), `GET /api/users/invitations`,
+ *     `GET /api/users/invitations/verify/:token`, `DELETE /api/users/invitations/:id`
+ *     — invitations are owned by the users router, not by `/api/admin`.
  *   - `/accept-invitation` page already exists on main.
  *
  * Frontend prerequisites (NOT yet on main):
