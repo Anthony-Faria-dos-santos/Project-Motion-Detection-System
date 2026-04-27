@@ -3,13 +3,17 @@ import { test, expect } from '@playwright/test';
 /**
  * E1 — Signup → email-verify interception → login → dashboard KPIs visible.
  *
- * Prerequisites (see e2e/README.md once you enable these):
- *   - `DATABASE_URL` points at a reachable test Postgres schema.
- *   - The test SMTP intercepts verification emails or the api exposes a
- *     dev-only route that returns the verification token for a known email.
+ * Backend prerequisites (live):
+ *   - `/api/_dev/verification-token` returns the active token for a given email.
+ *   - DB isolation via `?schema=test_integration`.
  *
- * Until either prerequisite is live the test is marked `skip`. Flip to
- * `test()` once the helper lands — the assertions stay valid.
+ * Frontend prerequisites (NOT yet on main):
+ *   - `/signup` page with the email/password/displayName form + ToS/Privacy toggles.
+ *   - `/verify-email-sent` (or `/check-your-email`) confirmation page.
+ *   - `/verify-email?token=...` page that calls `POST /auth/verify-email` and
+ *     redirects to `/login` on success.
+ *
+ * TODO(phase-7): un-skip when the signup + verify-email frontend pages are finished.
  */
 test.skip('E1: signup → verify email → login → dashboard renders KPIs', async ({ page, request }) => {
   const email = `e1-${Date.now()}@motionops.local`;
