@@ -68,6 +68,34 @@ enum IncidentStatus {
 
 // ── Models ─────────────────────────────────────
 
+// Tenant / organization root. Every tenant-scoped row carries an
+// organizationId FK so Postgres RLS policies (see migration
+// 20260427033445_enable_rls_tenant_isolation) can isolate data per tenant.
+model Organization {
+  id        String   @id @default(dbgenerated("gen_random_uuid()"))
+  name      String
+  slug      String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  users          User[]
+  cameras        Camera[]
+  events         Event[]
+  zones          Zone[]
+  sceneProfiles  SceneProfile[]
+  rules          Rule[]
+  tracks         Track[]
+  incidents      Incident[]
+  incidentEvents IncidentEvent[]
+  auditLogs      AuditLog[]
+  systemMetrics  SystemMetric[]
+  invitations    UserInvitation[]
+  systemMessages SystemMessage[]
+  presets        Preset[]
+
+  @@map("organizations")
+}
+
 model User {
   id          String     @id @default(dbgenerated("gen_random_uuid()"))
   email       String     @unique
@@ -109,6 +137,10 @@ model User {
   // Demo mode
   isDemoAccount Boolean @default(false)
 
+  // Tenant
+  organizationId String
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Restrict)
+
   // Relations
   auditLogs               AuditLog[]
   refreshTokens           RefreshToken[]
@@ -122,6 +154,7 @@ model User {
 
   @@index([status])
   @@index([role])
+  @@index([organizationId])
   @@map("users")
 }
 
@@ -150,12 +183,16 @@ model Camera {
   demoEventScript  Json?
   isSampleCamera   Boolean     @default(false)
 
+  organizationId String
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Restrict)
+
   activeProfile SceneProfile?  @relation("ActiveProfile", fields: [activeProfileId], references: [id])
   events        Event[]
   zones         Zone[]
   profiles      SceneProfile[] @relation("CameraProfiles")
   rules         Rule[]
 
+  @@index([organizationId])
   @@map("cameras")
 }
 
@@ -168,6 +205,10 @@ model Zone {
   camera    Camera   @relation(fields: [cameraId], references: [id], onDelete: Cascade)
   createdAt DateTime @default(now())
 
+  organizationId String
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Restrict)
+
+  @@index([organizationId])
   @@map("zones")
 }
 
@@ -187,7 +228,11 @@ model SceneProfile {
   camera      Camera   @relation("CameraProfiles", fields: [cameraId], references: [id], onDelete: Cascade)
   activatedBy Camera[] @relation("ActiveProfile")
 
+  organizationId String
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Restrict)
+
   @@unique([cameraId, name])
+  @@index([organizationId])
   @@map("scene_profiles")
 }
 
@@ -209,6 +254,10 @@ model Rule {
   camera Camera? @relation(fields: [cameraId], references: [id], onDelete: SetNull)
   events Event[]
 
+  organizationId String
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Restrict)
+
+  @@index([organizationId])
   @@map("rules")
 }
 
@@ -237,9 +286,13 @@ model Event {
   tracks    Track[]
   incidents IncidentEvent[]
 
+  organizationId String
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Restrict)
+
   @@index([cameraId, timestampStart])
   @@index([severity])
   @@index([reviewStatus])
+  @@index([organizationId])
   @@map("events")
 }
 
@@ -257,7 +310,11 @@ model Track {
 
   event Event? @relation(fields: [eventId], references: [id], onDelete: SetNull)
 
+  organizationId String
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Restrict)
+
   @@index([cameraId, isActive])
+  @@index([organizationId])
   @@map("tracks")
 }
 
@@ -275,6 +332,10 @@ model Incident {
 
   events IncidentEvent[]
 
+  organizationId String
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Restrict)
+
+  @@index([organizationId])
   @@map("incidents")
 }
 
@@ -285,8 +346,12 @@ model IncidentEvent {
   incident Incident @relation(fields: [incidentId], references: [id], onDelete: Cascade)
   event    Event    @relation(fields: [eventId], references: [id], onDelete: Cascade)
 
+  organizationId String
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Restrict)
+
   @@id([incidentId, eventId])
   @@index([eventId])
+  @@index([organizationId])
   @@map("incident_events")
 }
 
@@ -301,6 +366,10 @@ model Preset {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
+  organizationId String
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Restrict)
+
+  @@index([organizationId])
   @@map("presets")
 }
 
@@ -321,9 +390,13 @@ model AuditLog {
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
+  organizationId String
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Restrict)
+
   @@index([userId, createdAt])
   @@index([resource, createdAt])
   @@index([action])
+  @@index([organizationId])
   @@map("audit_logs")
 }
 
@@ -337,7 +410,11 @@ model SystemMetric {
   workerId  String?
   timestamp DateTime @default(now())
 
+  organizationId String
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Restrict)
+
   @@index([source, metric, timestamp])
+  @@index([organizationId])
   @@map("system_metrics")
 }
 
@@ -468,8 +545,12 @@ model UserInvitation {
 
   invitedBy User @relation("InvitedBy", fields: [invitedById], references: [id], onDelete: Cascade)
 
+  organizationId String
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Restrict)
+
   @@index([token])
   @@index([email])
+  @@index([organizationId])
   @@map("user_invitations")
 }
 
@@ -489,7 +570,11 @@ model SystemMessage {
   active      Boolean   @default(true)
   createdAt   DateTime  @default(now())
 
+  organizationId String
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Restrict)
+
   @@index([active, startsAt])
+  @@index([organizationId])
   @@map("system_messages")
 }
 
