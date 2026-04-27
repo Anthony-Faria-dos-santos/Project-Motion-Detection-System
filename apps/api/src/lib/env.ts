@@ -26,9 +26,13 @@ export function validateEnv(): void {
   }
 
   // Inform when optional integrations are disabled (helps debugging in prod).
-  for (const v of OPTIONAL_VARS) {
-    if (!process.env[v]) {
-      console.warn(`INFO: optional env ${v} is unset; related integration disabled`);
+  // Limit the message to production: in dev/CI these vars are expected to be
+  // unset, so a per-boot warning would just be noise.
+  if (process.env.NODE_ENV === 'production') {
+    for (const v of OPTIONAL_VARS) {
+      if (!process.env[v]) {
+        console.info(`INFO: optional env ${v} is unset; related integration disabled`);
+      }
     }
   }
 }
