@@ -23,7 +23,7 @@ jobs:
     timeout-minutes: 5
     steps:
       - name: Apply labels from .github/labeler.yml
-        uses: actions/labeler@v5
+        uses: actions/labeler@8558a7337f8f1b0c5b8f7347f0cdd2bdc5f306a7
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
           configuration-path: .github/labeler.yml
