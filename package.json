@@ -20,13 +20,17 @@
     ],
     "overrides": {
       "@types/react": "19.2.14",
-      "@types/react-dom": "19.2.3"
+      "@types/react-dom": "19.2.3",
+      "dompurify": "^3.4.0",
+      "uuid": "^14.0.0",
+      "cross-spawn@<6.0.6": "^7.0.6",
+      "postcss@<8.5.10": "^8.5.10"
     }
   },
   "devDependencies": {
     "@playwright/test": "^1.59.1",
     "@types/node": "^22.0.0",
-    "turbo": "^2.4.0",
+    "turbo": "^2.9.6",
     "typescript": "^5.7.0"
   }
 }
