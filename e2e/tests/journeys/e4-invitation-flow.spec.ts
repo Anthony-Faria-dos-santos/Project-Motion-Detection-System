@@ -1,11 +1,22 @@
 import { test, expect } from '@playwright/test';
 
 /**
- * E4 — SUPER_ADMIN invites a user, Claude intercepts the invite link, the
- * invitee lands on /accept-invitation, sets a password, and arrives on the
- * dashboard with the invited role.
+ * E4 — SUPER_ADMIN invites a user, the test intercepts the invite token via
+ * the dev helper, the invitee lands on /accept-invitation, sets a password,
+ * and arrives on the dashboard with the invited role.
  *
- * Skipped until seed fixtures + email interception are live.
+ * Backend prerequisites (live):
+ *   - `/api/_dev/seed-verified-user`, `/api/_dev/invitation-token`.
+ *   - `POST /api/users/invite` (create), `GET /api/users/invitations`,
+ *     `GET /api/users/invitations/verify/:token`, `DELETE /api/users/invitations/:id`
+ *     — invitations are owned by the users router, not by `/api/admin`.
+ *   - `/accept-invitation` page already exists on main.
+ *
+ * Frontend prerequisites (NOT yet on main):
+ *   - `/admin/users` page with "Invite user" / "New invitation" dialog
+ *     (email + role selector). Only `/admin` (root) is shipped today.
+ *
+ * TODO(phase-7): un-skip when the admin Users management page ships.
  */
 test.skip('E4: admin invitation → accept-invitation page → dashboard with invited role', async ({ page, request }) => {
   // Seed a SUPER_ADMIN actor.
