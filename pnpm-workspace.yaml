@@ -1,4 +1,8 @@
 packages:
   - "apps/*"
   - "packages/*"
+  # apps/docs (Nextra v2 + Next 14) is excluded from the workspace until it
+  # is migrated to Nextra v4 + Next 16 — keeping it in the workspace pins
+  # vulnerable next@14 transitives in the root lockfile and blocks dep-review.
+  - "!apps/docs"
 approveBuilds: true
