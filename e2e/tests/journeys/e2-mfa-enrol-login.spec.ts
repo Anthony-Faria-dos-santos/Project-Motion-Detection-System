@@ -3,11 +3,19 @@ import { test, expect } from '@playwright/test';
 /**
  * E2 — Login → enrol MFA (TOTP) → logout → login requires TOTP → success.
  *
- * Needs a verified user seeded through the API plus access to the otpauth
- * secret exposed by the `/mfa/enroll/start` response (QR code decoding is
- * heavy for E2E, so the secret is read directly from the JSON payload).
+ * Backend prerequisites (live):
+ *   - `/api/_dev/seed-verified-user` (creates a verified user with a known password).
+ *   - `POST /api/auth/mfa/enroll/start` + `POST /api/auth/mfa/enroll/verify`
+ *     (mfaRouter is mounted under `/api/auth`, the verify step is `verify`,
+ *     not `confirm`).
+ *   - `POST /api/auth/login/mfa` for the TOTP login challenge.
  *
- * Skipped until the integration fixtures can seed a verified user.
+ * Frontend prerequisites (NOT yet on main):
+ *   - `/settings/mfa` enrol page exposing the `otpauth-url` test id.
+ *   - TOTP challenge step on `/login` after a primary password success.
+ *   - A visible "Sign out" / "Log out" control in the dashboard shell.
+ *
+ * TODO(phase-7): un-skip when the MFA enrol UI and the login TOTP challenge UI ship.
  */
 test.skip('E2: enrol MFA, re-login with TOTP, dashboard accessible', async ({ page, request }) => {
   // Seed via dev-only helper: creates a verified user with a known password.

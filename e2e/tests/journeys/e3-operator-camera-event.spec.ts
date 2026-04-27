@@ -4,8 +4,15 @@ import { test, expect } from '@playwright/test';
  * E3 — OPERATOR: create a camera, see it in the list, review a seeded mock
  * event, observe the audit trail entry.
  *
- * Skipped until the seed helpers are live. The flow is already supported by
- * the API routes + frontend pages; this is a wiring test, not a new feature.
+ * Backend prerequisites (live):
+ *   - `/api/_dev/seed-verified-user`, `/api/_dev/seed-event`.
+ *   - `/api/cameras`, `/api/events`, `/api/audit` routes.
+ *
+ * Frontend prerequisites (NOT yet on main):
+ *   - `/cameras` page with an "Add camera" form (name / location / source URL).
+ *   - Review/confirm action on `/events` row entries.
+ *
+ * TODO(phase-7): un-skip when the Cameras page and the event-review action UI ship.
  */
 test.skip('E3: operator creates camera, reviews event, audit log shows entry', async ({ page, request }) => {
   const seed = await request.post('/api/_dev/seed-verified-user', {

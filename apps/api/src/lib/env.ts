@@ -6,6 +6,10 @@ const REQUIRED_VARS = [
   'WORKER_API_KEY',
 ];
 
+// Optional vars: not required to boot, but acknowledged for visibility.
+// SENTRY_DSN, when present, enables Sentry error reporting (see lib/sentry.ts).
+const OPTIONAL_VARS = ['SENTRY_DSN'];
+
 export function validateEnv(): void {
   const missing = REQUIRED_VARS.filter(v => !process.env[v]);
   if (missing.length > 0) {
@@ -19,5 +23,16 @@ export function validateEnv(): void {
   }
   if (process.env.JWT_SECRET?.includes('dev') || process.env.JWT_SECRET?.includes('change')) {
     console.warn('WARNING: JWT_SECRET appears to be a development placeholder');
+  }
+
+  // Inform when optional integrations are disabled (helps debugging in prod).
+  // Limit the message to production: in dev/CI these vars are expected to be
+  // unset, so a per-boot warning would just be noise.
+  if (process.env.NODE_ENV === 'production') {
+    for (const v of OPTIONAL_VARS) {
+      if (!process.env[v]) {
+        console.info(`INFO: optional env ${v} is unset; related integration disabled`);
+      }
+    }
   }
 }
