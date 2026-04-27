@@ -6,7 +6,8 @@ import { test, expect } from '@playwright/test';
  * demo events pre-seeded by `prisma/seed-demo.ts`.
  *
  * Backend prerequisites (live):
- *   - `/api/demo/login` route + the `prisma/seed-demo.ts` seed.
+ *   - `POST /api/auth/demo/login` route (demoRouter is mounted under
+ *     `/api/auth`) + the `prisma/seed-demo.ts` seed.
  *
  * Frontend prerequisites (NOT yet on main):
  *   - "Try the demo" button on the `/login` page (current login form is
