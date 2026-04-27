@@ -5,9 +5,17 @@ import { test, expect } from '@playwright/test';
  * a demo session and land on /dashboard with the 4 demo cameras and the 12
  * demo events pre-seeded by `prisma/seed-demo.ts`.
  *
- * Skipped until a reachable test DB lets `db:seed:demo` run green. The
- * frontend fallback (mock data) keeps the UI rendering in dev, but this is
- * an end-to-end check that the real data path works.
+ * Backend prerequisites (live):
+ *   - `POST /api/auth/demo/login` route (demoRouter is mounted under
+ *     `/api/auth`) + the `prisma/seed-demo.ts` seed.
+ *
+ * Frontend prerequisites (NOT yet on main):
+ *   - "Try the demo" button on the `/login` page (current login form is
+ *     credentials-only, no demo CTA).
+ *   - `/cameras` page that renders the 4 demo cameras as table rows.
+ *   - `[data-testid="event-list-item"]` markers on the `/events` rows.
+ *
+ * TODO(phase-7): un-skip when the demo login button and Cameras page ship.
  */
 test.skip('E5: demo login shows 4 demo cameras and 12 demo events', async ({ page }) => {
   await page.goto('/login');
