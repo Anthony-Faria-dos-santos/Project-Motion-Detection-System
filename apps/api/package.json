@@ -23,6 +23,7 @@
   },
   "dependencies": {
     "@prisma/client": "^6.0.0",
+    "@sentry/node": "10.50.0",
     "@simplewebauthn/server": "^13.3.0",
     "@supabase/supabase-js": "^2.104.1",
     "bcryptjs": "^3.0.3",

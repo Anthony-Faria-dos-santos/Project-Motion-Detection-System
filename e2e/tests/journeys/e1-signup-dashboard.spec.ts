@@ -3,13 +3,22 @@ import { test, expect } from '@playwright/test';
 /**
  * E1 — Signup → email-verify interception → login → dashboard KPIs visible.
  *
- * Prerequisites (see e2e/README.md once you enable these):
- *   - `DATABASE_URL` points at a reachable test Postgres schema.
- *   - The test SMTP intercepts verification emails or the api exposes a
- *     dev-only route that returns the verification token for a known email.
+ * Backend prerequisites (live):
+ *   - `/api/_dev/verification-token` returns the active token for a given email.
+ *   - DB isolation: the Playwright runner must point `DATABASE_URL` at a
+ *     dedicated schema (e.g. `?schema=test_e2e`); the CI job currently passes
+ *     `DATABASE_URL` straight through, so the schema suffix is the runner's
+ *     responsibility (Vitest integration tests have their own `test_integration`
+ *     schema and are NOT shared with this E2E spec).
  *
- * Until either prerequisite is live the test is marked `skip`. Flip to
- * `test()` once the helper lands — the assertions stay valid.
+ * Frontend prerequisites (NOT yet on main):
+ *   - `/signup` page with the email/password/displayName form + ToS/Privacy toggles.
+ *   - `/verify-email-sent` (or `/check-your-email`) confirmation page.
+ *   - `/verify-email?token=...` page that calls `POST /api/auth/verify-email`
+ *     (the web ApiClient prefixes with the API base URL) and redirects to
+ *     `/login` on success.
+ *
+ * TODO(phase-7): un-skip when the signup + verify-email frontend pages are finished.
  */
 test.skip('E1: signup → verify email → login → dashboard renders KPIs', async ({ page, request }) => {
   const email = `e1-${Date.now()}@motionops.local`;
