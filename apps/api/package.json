@@ -22,7 +22,7 @@
     "db:seed:demo": "tsx -r ./env.cjs prisma/seed-demo.ts"
   },
   "dependencies": {
-    "@prisma/client": "^6.0.0",
+    "@prisma/client": "^7.8.0",
     "@sentry/node": "10.50.0",
     "@simplewebauthn/server": "^13.3.0",
     "@supabase/supabase-js": "^2.104.1",
