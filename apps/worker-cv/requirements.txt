@@ -1,4 +1,4 @@
-opencv-python-headless>=4.10.0
+opencv-python-headless>=4.13.0.92
 ultralytics>=8.3.0
 python-socketio[asyncio]>=5.12.0
 fastapi>=0.115.0
