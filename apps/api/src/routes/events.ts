@@ -8,6 +8,11 @@ import { verifyEvent } from '../middleware/resource-auth';
 
 export const eventRouter: ReturnType<typeof Router> = Router();
 
+/** Converts a DB-stored UPPER_SNAKE enum value to the canonical snake_case wire format. */
+function toWireStatus(value: string): string {
+  return value.toLowerCase();
+}
+
 // S9: Zod validation for event query params
 const eventQuerySchema = z.object({
   page: z.coerce.number().int().min(1).default(1),
@@ -65,7 +70,7 @@ eventRouter.get('/', authenticate, async (req, res) => {
         cameraId: e.cameraId,
         cameraName: e.camera.name,
         timestampStart: e.timestampStart.toISOString(),
-        reviewStatus: e.reviewStatus.toLowerCase().replace('_', '_'),
+        reviewStatus: toWireStatus(e.reviewStatus),
         snapshotUrl: e.snapshotUrl,
         objectClass: (e.metadata as any)?.className || null,
         confidence: (e.metadata as any)?.confidence || null,
@@ -98,7 +103,7 @@ eventRouter.get('/:id', authenticate, verifyEvent, async (req, res) => {
     res.json({
       ...event,
       severity: event.severity.toLowerCase(),
-      reviewStatus: event.reviewStatus.toLowerCase(),
+      reviewStatus: toWireStatus(event.reviewStatus),
       timestampStart: event.timestampStart.toISOString(),
       timestampEnd: event.timestampEnd?.toISOString() || null,
       createdAt: event.createdAt.toISOString(),
@@ -142,7 +147,7 @@ eventRouter.patch('/:id/review', authenticate, authorize('event:review'), verify
       },
     });
 
-    res.json({ ...event, severity: event.severity.toLowerCase(), reviewStatus: event.reviewStatus.toLowerCase() });
+    res.json({ ...event, severity: event.severity.toLowerCase(), reviewStatus: toWireStatus(event.reviewStatus) });
   } catch (err) {
     if (err instanceof z.ZodError) {
       return res.status(400).json({ error: { code: 'EVENT_VALIDATION_ERROR', message: err.errors[0].message, retryable: false } });

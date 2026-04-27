@@ -4,15 +4,18 @@ on:
     branches: [main]
   push:
     branches: [main]
+permissions:
+  contents: read
 jobs:
   lint:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v3
       - uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: pnpm
-      - uses: pnpm/action-setup@v3
       - run: pnpm install --frozen-lockfile
+      - run: pnpm --filter @motionops/api exec prisma generate
       - run: pnpm lint

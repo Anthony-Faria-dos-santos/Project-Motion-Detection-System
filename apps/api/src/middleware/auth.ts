@@ -54,3 +54,18 @@ export function authorize(...requiredPermissions: string[]) {
     next();
   };
 }
+
+export function requireRole(...allowedRoles: string[]) {
+  return (req: AuthenticatedRequest, res: Response, next: NextFunction): void => {
+    if (!req.user) {
+      res.status(401).json({ error: { code: 'AUTH_MISSING_TOKEN', message: 'Not authenticated', retryable: false } });
+      return;
+    }
+
+    if (!allowedRoles.includes(req.user.role)) {
+      res.status(403).json({ error: { code: 'AUTH_INSUFFICIENT_ROLE', message: 'Insufficient role', retryable: false } });
+      return;
+    }
+    next();
+  };
+}
