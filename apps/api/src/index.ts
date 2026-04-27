@@ -1,3 +1,6 @@
+// Sentry must be imported FIRST so its instrumentation hooks attach before
+// Express, http, and other modules are loaded.
+import { Sentry } from './lib/sentry';
 import express from 'express';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
@@ -118,6 +121,10 @@ app.use('/api/audit', auditRouter);
 app.use('/api/gdpr', gdprRouter);
 app.use('/api/dashboard', dashboardRouter);
 app.use('/api/_dev', devRouter);
+
+// Sentry error handler must be registered AFTER all routes, BEFORE any
+// other error middleware. No-op when DSN is unset.
+Sentry.setupExpressErrorHandler(app);
 
 // WebSocket
 initDemoSimulator(io);
