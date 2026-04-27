@@ -5,13 +5,18 @@ import { test, expect } from '@playwright/test';
  *
  * Backend prerequisites (live):
  *   - `/api/_dev/verification-token` returns the active token for a given email.
- *   - DB isolation via `?schema=test_integration`.
+ *   - DB isolation: the Playwright runner must point `DATABASE_URL` at a
+ *     dedicated schema (e.g. `?schema=test_e2e`); the CI job currently passes
+ *     `DATABASE_URL` straight through, so the schema suffix is the runner's
+ *     responsibility (Vitest integration tests have their own `test_integration`
+ *     schema and are NOT shared with this E2E spec).
  *
  * Frontend prerequisites (NOT yet on main):
  *   - `/signup` page with the email/password/displayName form + ToS/Privacy toggles.
  *   - `/verify-email-sent` (or `/check-your-email`) confirmation page.
- *   - `/verify-email?token=...` page that calls `POST /auth/verify-email` and
- *     redirects to `/login` on success.
+ *   - `/verify-email?token=...` page that calls `POST /api/auth/verify-email`
+ *     (the web ApiClient prefixes with the API base URL) and redirects to
+ *     `/login` on success.
  *
  * TODO(phase-7): un-skip when the signup + verify-email frontend pages are finished.
  */
