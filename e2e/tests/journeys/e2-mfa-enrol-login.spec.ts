@@ -5,7 +5,10 @@ import { test, expect } from '@playwright/test';
  *
  * Backend prerequisites (live):
  *   - `/api/_dev/seed-verified-user` (creates a verified user with a known password).
- *   - `/api/mfa/enroll/start` + `/api/mfa/enroll/confirm` (and the TOTP login challenge).
+ *   - `POST /api/auth/mfa/enroll/start` + `POST /api/auth/mfa/enroll/verify`
+ *     (mfaRouter is mounted under `/api/auth`, the verify step is `verify`,
+ *     not `confirm`).
+ *   - `POST /api/auth/login/mfa` for the TOTP login challenge.
  *
  * Frontend prerequisites (NOT yet on main):
  *   - `/settings/mfa` enrol page exposing the `otpauth-url` test id.

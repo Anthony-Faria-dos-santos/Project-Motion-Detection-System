@@ -62,6 +62,15 @@ updates:
         update-types: ["version-update:semver-major"]
       - dependency-name: "react-dom"
         update-types: ["version-update:semver-major"]
+      # TypeScript 6.0 introduit des changements de résolution de modules
+      # (ex: side-effect imports CSS) qui cassent le typecheck. Bump majeur
+      # à reviewer manuellement (cf PR #32 fermée).
+      - dependency-name: "typescript"
+        update-types: ["version-update:semver-major"]
+      # ESLint 10 a un nouveau format de config qui peut casser la CI lint.
+      # Bump majeur à reviewer manuellement (cf PR #32 fermée).
+      - dependency-name: "eslint"
+        update-types: ["version-update:semver-major"]
 
   # ---------------------------------------------------------------
   # 2) Python — worker computer vision (apps/worker-cv)
