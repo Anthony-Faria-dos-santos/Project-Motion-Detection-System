@@ -1,0 +1,1290 @@
+{
+  "date": "2026-04-28",
+  "root_page_id": "34fc2705-92bb-803c-b814-e8f358dc3b5f",
+  "pages": [
+    {
+      "kind": "dashboard",
+      "notion_id": "34fc2705-92bb-803c-b814-e8f358dc3b5f",
+      "file": "_dashboard.md",
+      "title": "MotionOps"
+    },
+    {
+      "kind": "row",
+      "ref": "A-architect",
+      "notion_id": "350c2705-92bb-812f-a486-f04e3c8ff177",
+      "base": "agents",
+      "file": "agents/A-architect-architect-agent.md",
+      "title": "architect-agent",
+      "truncated": false
+    },
+    {
+      "kind": "row",
+      "ref": "A-backend",
+      "notion_id": "350c2705-92bb-817a-85d3-fe6826f74a07",
+      "base": "agents",
+      "file": "agents/A-backend-backend-agent.md",
+      "title": "backend-agent",
+      "truncated": false
+    },
+    {
+      "kind": "row",
+      "ref": "A-cv",
+      "notion_id": "350c2705-92bb-816b-9c55-f1fcbaef7cd5",
+      "base": "agents",
+      "file": "agents/A-cv-cv-agent.md",
+      "title": "cv-agent",
+      "truncated": false
+    },
+    {
+      "kind": "row",
+      "ref": "A-docs",
+      "notion_id": "350c2705-92bb-81b7-982d-c4c05966ac7e",
+      "base": "agents",
+      "file": "agents/A-docs-docs-agent.md",
+      "title": "docs-agent",
+      "truncated": false
+    },
+    {
+      "kind": "row",
+      "ref": "A-frontend",
+      "notion_id": "350c2705-92bb-814a-bfbc-f8010e08b958",
+      "base": "agents",
+      "file": "agents/A-frontend-frontend-agent.md",
+      "title": "frontend-agent",
+      "truncated": false
+    },
+    {
+      "kind": "row",
+      "ref": "A-frontend-v0",
+      "notion_id": "350c2705-92bb-818f-9d27-fa58b2981e52",
+      "base": "agents",
+      "file": "agents/A-frontend-v0-frontend-v0-agent.md",
+      "title": "frontend-v0-agent",
+      "truncated": false
+    },
+    {
+      "kind": "row",
+      "ref": "A-orchestrator",
+      "notion_id": "350c2705-92bb-8116-ab4a-ef5e3356a227",
+      "base": "agents",
+      "file": "agents/A-orchestrator-orchestrator-agent.md",
+      "title": "orchestrator-agent",
+      "truncated": false
+    },
+    {
+      "kind": "row",
+      "ref": "A-product",
+      "notion_id": "350c2705-92bb-8117-ae2e-cf933b843d2f",
+      "base": "agents",
+      "file": "agents/A-product-product-agent.md",
+      "title": "product-agent",
+      "truncated": false
+    },
+    {
+      "kind": "row",
+      "ref": "A-qa",
+      "notion_id": "350c2705-92bb-81df-bb77-f3f89a2a5fc1",
+      "base": "agents",
+      "file": "agents/A-qa-qa-agent.md",
+      "title": "qa-agent",
+      "truncated": false
+    },
+    {
+      "kind": "row",
+      "ref": "A-security",
+      "notion_id": "350c2705-92bb-8195-82b9-f904040a8c47",
+      "base": "agents",
+      "file": "agents/A-security-security-agent.md",
+      "title": "security-agent",
+      "truncated": false
+    },
+    {
+      "kind": "row",
+      "ref": "A-ux",
+      "notion_id": "350c2705-92bb-81d4-9b6a-dceaef15a509",
+      "base": "agents",
+      "file": "agents/A-ux-ux-agent.md",
+      "title": "ux-agent",
+      "truncated": false
+    },
+    {
+      "kind": "row",
+      "ref": "ADR-001",
+      "notion_id": "350c2705-92bb-8151-ba53-e374187ada50",
+      "base": "adr",
+      "file": "adr/ADR-001-adr-001-supabase-comme-stack-identite-db-storage-unifie.md",
+      "title": "ADR-001 — Supabase comme stack identité+DB+Storage unifié",
+      "truncated": false
+    },
+    {
+      "kind": "row",
+      "ref": "ADR-002",
+      "notion_id": "350c2705-92bb-81bc-9686-df2e87dfe7d2",
+      "base": "adr",
+      "file": "adr/ADR-002-adr-002-fastify-5-vs-express-5-pour-l-api.md",
+      "title": "ADR-002 — Fastify 5 vs Express 5 pour l'API",
+      "truncated": false
+    },
+    {
+      "kind": "row",
+      "ref": "ADR-003",
+      "notion_id": "350c2705-92bb-814c-96bf-f080d6c21678",
+      "base": "adr",
+      "file": "adr/ADR-003-adr-003-prisma-6-comme-orm.md",
+      "title": "ADR-003 — Prisma 6 comme ORM",
+      "truncated": false
+    },
+    {
+      "kind": "row",
+      "ref": "ADR-004",
+      "notion_id": "350c2705-92bb-8133-9731-e7c3df751f92",
+      "base": "adr",
+      "file": "adr/ADR-004-adr-004-next-js-15-react-19-pour-le-frontend.md",
+      "title": "ADR-004 — Next.js 15 + React 19 pour le frontend",
+      "truncated": false
+    },
+    {
+      "kind": "row",
+      "ref": "ADR-005",
+      "notion_id": "350c2705-92bb-811e-a559-e74c8f317344",
+      "base": "adr",
+      "file": "adr/ADR-005-adr-005-turborepo-pnpm-pour-le-monorepo.md",
+      "title": "ADR-005 — Turborepo + pnpm pour le monorepo",
+      "truncated": false
+    },
+    {
+      "kind": "row",
+      "ref": "ADR-006",
+      "notion_id": "350c2705-92bb-81ed-b1b3-e56608bd0650",
+      "base": "adr",
+      "file": "adr/ADR-006-adr-006-yolo11-ultralytics-bytetrack-opencv-mog2-motion-gati.md",
+      "title": "ADR-006 — YOLO11 (ultralytics) + ByteTrack + OpenCV MOG2 motion gating",
+      "truncated": false
+    },
+    {
+      "kind": "row",
+      "ref": "ADR-007",
+      "notion_id": "350c2705-92bb-818f-a871-dcb8271972be",
+      "base": "adr",
+      "file": "adr/ADR-007-adr-007-jwt-en-cookies-httponly-samesite-strict-vs-localstor.md",
+      "title": "ADR-007 — JWT en cookies HttpOnly SameSite=Strict (vs localStorage)",
+      "truncated": false
+    },
+    {
+      "kind": "row",
+      "ref": "ADR-008",
+      "notion_id": "350c2705-92bb-8164-9c9e-d52b7a41e01d",
+      "base": "adr",
+      "file": "adr/ADR-008-adr-008-zustand-react-query-pour-state-management-refus-de-r.md",
+      "title": "ADR-008 — Zustand + React Query pour state management (refus de Redux/Context global)",
+      "truncated": false
+    },
+    {
+      "kind": "row",
+      "ref": "ADR-009",
+      "notion_id": "350c2705-92bb-8175-b9df-d7cbc0ada2b3",
+      "base": "adr",
+      "file": "adr/ADR-009-adr-009-design-tokens-mo-uniques-refus-shadcn-hsl-dual-syste.md",
+      "title": "ADR-009 — Design tokens --mo-* uniques (refus shadcn HSL dual-system)",
+      "truncated": false
+    },
+    {
+      "kind": "row",
+      "ref": "ADR-010",
+      "notion_id": "350c2705-92bb-818f-819f-eef00d506ed2",
+      "base": "adr",
+      "file": "adr/ADR-010-adr-010-audit-logging-systematique-sur-toutes-mutations-api.md",
+      "title": "ADR-010 — Audit logging systématique sur toutes mutations API",
+      "truncated": false
+    },
+    {
+      "kind": "row",
+      "ref": "ADR-011",
+      "notion_id": "350c2705-92bb-8165-a6eb-ddec7ef05d72",
+      "base": "adr",
+      "file": "adr/ADR-011-adr-011-error-shape-api-standardise-error-code-message-detai.md",
+      "title": "ADR-011 — Error shape API standardisé `{error: {code, message, details?, retryable}}`",
+      "truncated": false
+    },
+    {
+      "kind": "row",
+      "ref": "ADR-012",
+      "notion_id": "350c2705-92bb-8164-a2ba-f66575e1f59e",
+      "base": "adr",
+      "file": "adr/ADR-012-adr-012-websocket-socket-io-vs-sse-pour-le-temps-reel.md",
+      "title": "ADR-012 — WebSocket Socket.IO vs SSE pour le temps réel",
+      "truncated": false
+    },
+    {
+      "kind": "row",
+      "ref": "ADR-013",
+      "notion_id": "350c2705-92bb-81c1-97a9-fc8695a23a85",
+      "base": "adr",
+      "file": "adr/ADR-013-adr-013-rls-postgres-pour-multi-tenant-defense-in-depth-owas.md",
+      "title": "ADR-013 — RLS Postgres pour multi-tenant (defense-in-depth OWASP A01)",
+      "truncated": false
+    },
+    {
+      "kind": "row",
+      "ref": "ADR-014",
+      "notion_id": "350c2705-92bb-8159-81ab-f93537f7081c",
+      "base": "adr",
+      "file": "adr/ADR-014-adr-014-sentry-pour-observability-frontend-backend.md",
+      "title": "ADR-014 — Sentry pour observability frontend+backend",
+      "truncated": false
+    },
+    {
+      "kind": "row",
+      "ref": "ADR-015",
+      "notion_id": "350c2705-92bb-8163-b9ea-d133fc396d51",
+      "base": "adr",
+      "file": "adr/ADR-015-adr-015-paddle-mor-pour-billing-vs-stripe.md",
+      "title": "ADR-015 — Paddle MoR pour billing (vs Stripe)",
+      "truncated": false
+    },
+    {
+      "kind": "row",
+      "ref": "G-001",
+      "notion_id": "350c2705-92bb-81a3-ba18-d8d8759d2765",
+      "base": "glossaire",
+      "file": "glossaire/G-001-evenement-qualifie.md",
+      "title": "Événement qualifié",
+      "truncated": false
+    },
+    {
+      "kind": "row",
+      "ref": "G-002",
+      "notion_id": "350c2705-92bb-81eb-907f-f140f7ac9144",
+      "base": "glossaire",
+      "file": "glossaire/G-002-qualification.md",
+      "title": "Qualification",
+      "truncated": false
+    },
+    {
+      "kind": "row",
+      "ref": "G-003",
+      "notion_id": "350c2705-92bb-81a3-9a9e-e01f7baeed9b",
+      "base": "glossaire",
+      "file": "glossaire/G-003-mfa.md",
+      "title": "MFA",
+      "truncated": false
+    },
+    {
+      "kind": "row",
+      "ref": "G-004",
+      "notion_id": "350c2705-92bb-81b2-ad5c-fc13e1089388",
+      "base": "glossaire",
+      "file": "glossaire/G-004-passkey-recovery.md",
+      "title": "Passkey recovery",
+      "truncated": false
+    },
+    {
+      "kind": "row",
+      "ref": "G-005",
+      "notion_id": "350c2705-92bb-81e4-b911-e9d3046a5b67",
+      "base": "glossaire",
+      "file": "glossaire/G-005-accept-invitation.md",
+      "title": "Accept-invitation",
+      "truncated": false
+    },
+    {
+      "kind": "row",
+      "ref": "G-006",
+      "notion_id": "350c2705-92bb-81fe-93a0-e5dd07266411",
+      "base": "glossaire",
+      "file": "glossaire/G-006-live-monitoring.md",
+      "title": "Live monitoring",
+      "truncated": false
+    },
+    {
+      "kind": "row",
+      "ref": "G-007",
+      "notion_id": "350c2705-92bb-81f5-882b-dae68de6a0f9",
+      "base": "glossaire",
+      "file": "glossaire/G-007-rls-tenant.md",
+      "title": "RLS tenant",
+      "truncated": false
+    },
+    {
+      "kind": "row",
+      "ref": "G-008",
+      "notion_id": "350c2705-92bb-81b4-b64d-ff62ea3e72b4",
+      "base": "glossaire",
+      "file": "glossaire/G-008-feature-gate.md",
+      "title": "Feature gate",
+      "truncated": false
+    },
+    {
+      "kind": "row",
+      "ref": "G-009",
+      "notion_id": "350c2705-92bb-8143-8605-d8a86f7b5020",
+      "base": "glossaire",
+      "file": "glossaire/G-009-design-token.md",
+      "title": "Design token",
+      "truncated": false
+    },
+    {
+      "kind": "row",
+      "ref": "G-010",
+      "notion_id": "350c2705-92bb-81e8-8549-e7614d898bf2",
+      "base": "glossaire",
+      "file": "glossaire/G-010-audit-log.md",
+      "title": "Audit log",
+      "truncated": false
+    },
+    {
+      "kind": "row",
+      "ref": "G-011",
+      "notion_id": "350c2705-92bb-81a5-99d3-f8d4226c3b73",
+      "base": "glossaire",
+      "file": "glossaire/G-011-redactsensitive.md",
+      "title": "redactSensitive",
+      "truncated": false
+    },
+    {
+      "kind": "row",
+      "ref": "G-012",
+      "notion_id": "350c2705-92bb-81d7-a225-ed7616629a2c",
+      "base": "glossaire",
+      "file": "glossaire/G-012-hot-rule-reload.md",
+      "title": "Hot Rule Reload",
+      "truncated": false
+    },
+    {
+      "kind": "row",
+      "ref": "G-013",
+      "notion_id": "350c2705-92bb-8165-8a3e-c8562549f997",
+      "base": "glossaire",
+      "file": "glossaire/G-013-forensic-provenance.md",
+      "title": "Forensic Provenance",
+      "truncated": false
+    },
+    {
+      "kind": "row",
+      "ref": "G-014",
+      "notion_id": "350c2705-92bb-8106-8e4d-d0b522382871",
+      "base": "glossaire",
+      "file": "glossaire/G-014-multi-tenant.md",
+      "title": "Multi-tenant",
+      "truncated": false
+    },
+    {
+      "kind": "row",
+      "ref": "G-015",
+      "notion_id": "350c2705-92bb-81b8-9911-e1b1b40d1386",
+      "base": "glossaire",
+      "file": "glossaire/G-015-organization.md",
+      "title": "Organization",
+      "truncated": false
+    },
+    {
+      "kind": "row",
+      "ref": "G-016",
+      "notion_id": "350c2705-92bb-81ab-b22d-c23bc14e6768",
+      "base": "glossaire",
+      "file": "glossaire/G-016-bytetrack.md",
+      "title": "ByteTrack",
+      "truncated": false
+    },
+    {
+      "kind": "row",
+      "ref": "G-017",
+      "notion_id": "350c2705-92bb-81dd-b205-f79126f67952",
+      "base": "glossaire",
+      "file": "glossaire/G-017-yolo-inference.md",
+      "title": "YOLO inference",
+      "truncated": false
+    },
+    {
+      "kind": "row",
+      "ref": "G-018",
+      "notion_id": "350c2705-92bb-8173-afa9-e9d1169af686",
+      "base": "glossaire",
+      "file": "glossaire/G-018-motion-gating-mog2.md",
+      "title": "Motion gating (MOG2)",
+      "truncated": false
+    },
+    {
+      "kind": "row",
+      "ref": "G-019",
+      "notion_id": "350c2705-92bb-81ab-b913-e758c78f895b",
+      "base": "glossaire",
+      "file": "glossaire/G-019-scriptedevent.md",
+      "title": "ScriptedEvent",
+      "truncated": false
+    },
+    {
+      "kind": "row",
+      "ref": "G-020",
+      "notion_id": "350c2705-92bb-8106-8219-e649795c34a5",
+      "base": "glossaire",
+      "file": "glossaire/G-020-demosimulator.md",
+      "title": "DemoSimulator",
+      "truncated": false
+    },
+    {
+      "kind": "row",
+      "ref": "G-021",
+      "notion_id": "350c2705-92bb-81f8-b44c-de1bf7d63365",
+      "base": "glossaire",
+      "file": "glossaire/G-021-camera-kind.md",
+      "title": "Camera kind",
+      "truncated": false
+    },
+    {
+      "kind": "row",
+      "ref": "G-022",
+      "notion_id": "350c2705-92bb-81eb-8581-c09e01858376",
+      "base": "glossaire",
+      "file": "glossaire/G-022-worker-cv.md",
+      "title": "Worker CV",
+      "truncated": false
+    },
+    {
+      "kind": "row",
+      "ref": "G-023",
+      "notion_id": "350c2705-92bb-817a-9b0a-f8e8bb05aac5",
+      "base": "glossaire",
+      "file": "glossaire/G-023-track-id.md",
+      "title": "Track ID",
+      "truncated": false
+    },
+    {
+      "kind": "row",
+      "ref": "G-024",
+      "notion_id": "350c2705-92bb-8130-ae29-c20f51a314dd",
+      "base": "glossaire",
+      "file": "glossaire/G-024-bounding-box.md",
+      "title": "Bounding box",
+      "truncated": false
+    },
+    {
+      "kind": "row",
+      "ref": "G-025",
+      "notion_id": "350c2705-92bb-8198-b950-d91478b64062",
+      "base": "glossaire",
+      "file": "glossaire/G-025-trajectory-keyframe.md",
+      "title": "Trajectory keyframe",
+      "truncated": false
+    },
+    {
+      "kind": "row",
+      "ref": "G-026",
+      "notion_id": "350c2705-92bb-8105-8ca5-d30bfa636e2f",
+      "base": "glossaire",
+      "file": "glossaire/G-026-severity.md",
+      "title": "Severity",
+      "truncated": false
+    },
+    {
+      "kind": "row",
+      "ref": "G-027",
+      "notion_id": "350c2705-92bb-814c-a1e4-fb0a20956253",
+      "base": "glossaire",
+      "file": "glossaire/G-027-review-status.md",
+      "title": "Review status",
+      "truncated": false
+    },
+    {
+      "kind": "row",
+      "ref": "G-028",
+      "notion_id": "350c2705-92bb-81e2-a896-cce7fa5bdaf0",
+      "base": "glossaire",
+      "file": "glossaire/G-028-idempotency-key.md",
+      "title": "Idempotency-Key",
+      "truncated": false
+    },
+    {
+      "kind": "row",
+      "ref": "G-029",
+      "notion_id": "350c2705-92bb-8188-88ca-da5092b7a652",
+      "base": "glossaire",
+      "file": "glossaire/G-029-trace-id.md",
+      "title": "Trace-Id",
+      "truncated": false
+    },
+    {
+      "kind": "row",
+      "ref": "K-001",
+      "notion_id": "350c2705-92bb-812f-b79c-c08d3e231a92",
+      "base": "kpis",
+      "file": "kpis/K-001-latence-p95-detection.md",
+      "title": "Latence p95 détection",
+      "truncated": false
+    },
+    {
+      "kind": "row",
+      "ref": "K-002",
+      "notion_id": "350c2705-92bb-81d5-87fc-cf91f5cbbad6",
+      "base": "kpis",
+      "file": "kpis/K-002-faux-positifs.md",
+      "title": "Faux positifs %",
+      "truncated": false
+    },
+    {
+      "kind": "row",
+      "ref": "K-003",
+      "notion_id": "350c2705-92bb-8198-99b2-c01d5d168834",
+      "base": "kpis",
+      "file": "kpis/K-003-coverage-tests-api.md",
+      "title": "Coverage tests api",
+      "truncated": false
+    },
+    {
+      "kind": "row",
+      "ref": "K-004",
+      "notion_id": "350c2705-92bb-811e-b825-f309e3858467",
+      "base": "kpis",
+      "file": "kpis/K-004-uptime-api.md",
+      "title": "Uptime API",
+      "truncated": false
+    },
+    {
+      "kind": "row",
+      "ref": "K-005",
+      "notion_id": "350c2705-92bb-8141-a6c2-f13d32073d5e",
+      "base": "kpis",
+      "file": "kpis/K-005-time-to-event-qualification-capture-review.md",
+      "title": "Time-to-event qualification (capture → review)",
+      "truncated": false
+    },
+    {
+      "kind": "row",
+      "ref": "K-006",
+      "notion_id": "350c2705-92bb-81f3-a091-e114f3921765",
+      "base": "kpis",
+      "file": "kpis/K-006-erreurs-sentry-jour.md",
+      "title": "Erreurs Sentry / jour",
+      "truncated": false
+    },
+    {
+      "kind": "row",
+      "ref": "K-007",
+      "notion_id": "350c2705-92bb-811d-91e0-d3861c227a65",
+      "base": "kpis",
+      "file": "kpis/K-007-cameras-actives.md",
+      "title": "Caméras actives",
+      "truncated": false
+    },
+    {
+      "kind": "row",
+      "ref": "K-008",
+      "notion_id": "350c2705-92bb-8165-8ae9-c29977efb7fc",
+      "base": "kpis",
+      "file": "kpis/K-008-evenements-qualifies-jour.md",
+      "title": "Événements qualifiés / jour",
+      "truncated": false
+    },
+    {
+      "kind": "row",
+      "ref": "K-009",
+      "notion_id": "350c2705-92bb-812b-bbab-ddaa0c8a3f1d",
+      "base": "kpis",
+      "file": "kpis/K-009-latence-p95-api.md",
+      "title": "Latence p95 API",
+      "truncated": false
+    },
+    {
+      "kind": "row",
+      "ref": "K-010",
+      "notion_id": "350c2705-92bb-814b-ad1b-f54c4d635b3d",
+      "base": "kpis",
+      "file": "kpis/K-010-backups-reussis-7j.md",
+      "title": "Backups réussis / 7j",
+      "truncated": false
+    },
+    {
+      "kind": "row",
+      "ref": "MON-001",
+      "notion_id": "350c2705-92bb-8120-a407-cfd98689992c",
+      "base": "monetisation",
+      "file": "monetisation/MON-001-tier-free.md",
+      "title": "Tier Free",
+      "truncated": false
+    },
+    {
+      "kind": "row",
+      "ref": "MON-002",
+      "notion_id": "350c2705-92bb-81e2-808b-d50ecabf350e",
+      "base": "monetisation",
+      "file": "monetisation/MON-002-tier-pro.md",
+      "title": "Tier Pro",
+      "truncated": false
+    },
+    {
+      "kind": "row",
+      "ref": "MON-003",
+      "notion_id": "350c2705-92bb-8131-ae99-d6ea117f126f",
+      "base": "monetisation",
+      "file": "monetisation/MON-003-tier-team.md",
+      "title": "Tier Team",
+      "truncated": false
+    },
+    {
+      "kind": "row",
+      "ref": "MON-004",
+      "notion_id": "350c2705-92bb-811e-9efe-d327c34950d7",
+      "base": "monetisation",
+      "file": "monetisation/MON-004-tier-enterprise.md",
+      "title": "Tier Enterprise",
+      "truncated": false
+    },
+    {
+      "kind": "row",
+      "ref": "MON-005",
+      "notion_id": "350c2705-92bb-819a-be2a-f1cc8fb7bb29",
+      "base": "monetisation",
+      "file": "monetisation/MON-005-paddle-integration.md",
+      "title": "Paddle integration",
+      "truncated": false
+    },
+    {
+      "kind": "row",
+      "ref": "PH-1",
+      "notion_id": "350c2705-92bb-81a6-ad18-c9c76eaa3efe",
+      "base": "phases",
+      "file": "phases/PH-1-phase-1-governance-claude-md-docs-index-7-phase-roadmap.md",
+      "title": "Phase 1 — Governance, CLAUDE.md, docs index, 7-phase roadmap",
+      "truncated": false
+    },
+    {
+      "kind": "row",
+      "ref": "PH-2",
+      "notion_id": "350c2705-92bb-81c0-b02a-fb6f5b4946e5",
+      "base": "phases",
+      "file": "phases/PH-2-phase-2-backend-finitions.md",
+      "title": "Phase 2 — Backend finitions",
+      "truncated": false
+    },
+    {
+      "kind": "row",
+      "ref": "PH-3",
+      "notion_id": "350c2705-92bb-81d2-9a79-eee568d6a88a",
+      "base": "phases",
+      "file": "phases/PH-3-phase-3-tests.md",
+      "title": "Phase 3 — Tests",
+      "truncated": false
+    },
+    {
+      "kind": "row",
+      "ref": "PH-4",
+      "notion_id": "350c2705-92bb-8198-a0e3-fdce6502ff49",
+      "base": "phases",
+      "file": "phases/PH-4-phase-4-observabilite.md",
+      "title": "Phase 4 — Observabilité",
+      "truncated": false
+    },
+    {
+      "kind": "row",
+      "ref": "PH-5",
+      "notion_id": "350c2705-92bb-81c5-8667-d68619f955ba",
+      "base": "phases",
+      "file": "phases/PH-5-phase-5-pre-prod-checklist.md",
+      "title": "Phase 5 — Pre-prod checklist",
+      "truncated": false
+    },
+    {
+      "kind": "row",
+      "ref": "PH-6",
+      "notion_id": "350c2705-92bb-8167-a3b7-f3374d6dcce8",
+      "base": "phases",
+      "file": "phases/PH-6-phase-6-monetisation-paddle.md",
+      "title": "Phase 6 — Monétisation Paddle",
+      "truncated": false
+    },
+    {
+      "kind": "row",
+      "ref": "PH-7",
+      "notion_id": "350c2705-92bb-813d-8c7d-ec4f6a7d3ad7",
+      "base": "phases",
+      "file": "phases/PH-7-phase-7-polish-launch.md",
+      "title": "Phase 7 — Polish & launch",
+      "truncated": false
+    },
+    {
+      "kind": "row",
+      "ref": "R-001",
+      "notion_id": "350c2705-92bb-8114-994c-d0abcfefd805",
+      "base": "risques",
+      "file": "risques/R-001-rls-tenant-non-strict-en-prod-owasp-a01.md",
+      "title": "RLS tenant non strict en prod (OWASP A01)",
+      "truncated": false
+    },
+    {
+      "kind": "row",
+      "ref": "R-002",
+      "notion_id": "350c2705-92bb-8165-afde-ead661676a1b",
+      "base": "risques",
+      "file": "risques/R-002-hsts-preload-non-submit.md",
+      "title": "HSTS preload non submit",
+      "truncated": false
+    },
+    {
+      "kind": "row",
+      "ref": "R-003",
+      "notion_id": "350c2705-92bb-814c-afec-d3a37ce533ec",
+      "base": "risques",
+      "file": "risques/R-003-idle-timeout-absent-sessions-longues-detournables.md",
+      "title": "Idle timeout absent — sessions longues détournables",
+      "truncated": false
+    },
+    {
+      "kind": "row",
+      "ref": "R-004",
+      "notion_id": "350c2705-92bb-81c5-af18-e77d9ddaa71a",
+      "base": "risques",
+      "file": "risques/R-004-tls-worker-non-strict-rtsp-accepte-en-non-prod.md",
+      "title": "TLS worker non strict (rtsp:// accepté en non-prod)",
+      "truncated": false
+    },
+    {
+      "kind": "row",
+      "ref": "R-005",
+      "notion_id": "350c2705-92bb-81c0-8ad7-d3512dffd1a4",
+      "base": "risques",
+      "file": "risques/R-005-cloudflare-waf-absent-exposition-ddos-bot-scanners.md",
+      "title": "Cloudflare WAF absent — exposition DDoS / bot scanners",
+      "truncated": false
+    },
+    {
+      "kind": "row",
+      "ref": "R-006",
+      "notion_id": "350c2705-92bb-810b-8172-f535f481050d",
+      "base": "risques",
+      "file": "risques/R-006-secrets-prod-jamais-rotes-depuis-creation.md",
+      "title": "Secrets prod jamais rotés depuis création",
+      "truncated": false
+    },
+    {
+      "kind": "row",
+      "ref": "R-007",
+      "notion_id": "350c2705-92bb-8105-8287-e1e7af27c11e",
+      "base": "risques",
+      "file": "risques/R-007-dpa-supabase-pro-non-signe-non-conformite-gdpr-article-28.md",
+      "title": "DPA Supabase Pro non signé — non-conformité GDPR Article 28",
+      "truncated": false
+    },
+    {
+      "kind": "row",
+      "ref": "R-008",
+      "notion_id": "350c2705-92bb-814c-8879-f0c3b59a522d",
+      "base": "risques",
+      "file": "risques/R-008-declaration-cnil-absente-registre-rgpd-art-30-video.md",
+      "title": "Déclaration CNIL absente (registre RGPD art. 30 vidéo)",
+      "truncated": false
+    },
+    {
+      "kind": "row",
+      "ref": "R-009",
+      "notion_id": "350c2705-92bb-8192-ad24-c660ffe2bb49",
+      "base": "risques",
+      "file": "risques/R-009-backups-db-non-testes-en-restore.md",
+      "title": "Backups DB non testés en restore",
+      "truncated": false
+    },
+    {
+      "kind": "row",
+      "ref": "R-010",
+      "notion_id": "350c2705-92bb-816f-bb11-d3d4d72be104",
+      "base": "risques",
+      "file": "risques/R-010-worker-cv-crash-silencieux-non-monitore.md",
+      "title": "Worker CV crash silencieux non monitoré",
+      "truncated": false
+    },
+    {
+      "kind": "row",
+      "ref": "RES-001",
+      "notion_id": "350c2705-92bb-813c-addd-d7f7e2f83303",
+      "base": "recherche",
+      "file": "recherche/RES-001-rls-tenant-isolation-supabase-design-gucs-14-tables.md",
+      "title": "RLS tenant isolation Supabase — design + GUCs + 14 tables",
+      "truncated": false
+    },
+    {
+      "kind": "row",
+      "ref": "RES-002",
+      "notion_id": "350c2705-92bb-816e-9fcf-c17e783b34c9",
+      "base": "recherche",
+      "file": "recherche/RES-002-sentry-observability-wiring-api-web-source-maps.md",
+      "title": "Sentry observability — wiring api + web + source maps",
+      "truncated": false
+    },
+    {
+      "kind": "row",
+      "ref": "S-001",
+      "notion_id": "350c2705-92bb-8101-bf63-f1cd02ed2dd3",
+      "base": "sprints",
+      "file": "sprints/S-001-next-js-16.md",
+      "title": "Next.js 16",
+      "truncated": false
+    },
+    {
+      "kind": "row",
+      "ref": "S-002",
+      "notion_id": "350c2705-92bb-818b-9ce8-d461ced68bc9",
+      "base": "sprints",
+      "file": "sprints/S-002-react-19.md",
+      "title": "React 19",
+      "truncated": false
+    },
+    {
+      "kind": "row",
+      "ref": "S-003",
+      "notion_id": "350c2705-92bb-81a5-bb0f-f1148d49b7d9",
+      "base": "sprints",
+      "file": "sprints/S-003-tailwind-css-v4.md",
+      "title": "Tailwind CSS v4",
+      "truncated": false
+    },
+    {
+      "kind": "row",
+      "ref": "S-004",
+      "notion_id": "350c2705-92bb-81c4-acde-d6a1aef38c7d",
+      "base": "sprints",
+      "file": "sprints/S-004-express-5.md",
+      "title": "Express 5",
+      "truncated": false
+    },
+    {
+      "kind": "row",
+      "ref": "S-005",
+      "notion_id": "350c2705-92bb-814b-80d8-fa4d8da902d9",
+      "base": "sprints",
+      "file": "sprints/S-005-nextra-v2.md",
+      "title": "Nextra v2",
+      "truncated": false
+    },
+    {
+      "kind": "row",
+      "ref": "S-006",
+      "notion_id": "350c2705-92bb-81f2-a1e3-cebf27c3c5b9",
+      "base": "sprints",
+      "file": "sprints/S-006-prisma.md",
+      "title": "Prisma",
+      "truncated": false
+    },
+    {
+      "kind": "row",
+      "ref": "S-007",
+      "notion_id": "350c2705-92bb-8147-83a8-d3c7faf4f4e3",
+      "base": "sprints",
+      "file": "sprints/S-007-zustand.md",
+      "title": "Zustand",
+      "truncated": false
+    },
+    {
+      "kind": "row",
+      "ref": "S-008",
+      "notion_id": "350c2705-92bb-81c3-9fa0-d5c6207b2c67",
+      "base": "sprints",
+      "file": "sprints/S-008-tanstack-react-query.md",
+      "title": "TanStack React Query",
+      "truncated": false
+    },
+    {
+      "kind": "row",
+      "ref": "S-009",
+      "notion_id": "350c2705-92bb-815c-8686-e0a0c1e1551c",
+      "base": "sprints",
+      "file": "sprints/S-009-recharts.md",
+      "title": "Recharts",
+      "truncated": false
+    },
+    {
+      "kind": "row",
+      "ref": "S-010",
+      "notion_id": "350c2705-92bb-81ce-b4c0-fbd11fa76723",
+      "base": "sprints",
+      "file": "sprints/S-010-lucide-react.md",
+      "title": "Lucide React",
+      "truncated": false
+    },
+    {
+      "kind": "row",
+      "ref": "S-011",
+      "notion_id": "350c2705-92bb-81bb-b6ba-e995a296f275",
+      "base": "sprints",
+      "file": "sprints/S-011-zod.md",
+      "title": "Zod",
+      "truncated": false
+    },
+    {
+      "kind": "row",
+      "ref": "S-012",
+      "notion_id": "350c2705-92bb-81a6-b73c-cdc6266055b5",
+      "base": "sprints",
+      "file": "sprints/S-012-socket-io.md",
+      "title": "Socket.IO",
+      "truncated": false
+    },
+    {
+      "kind": "row",
+      "ref": "S-013",
+      "notion_id": "350c2705-92bb-81d4-8a3b-fb9f0645cbcd",
+      "base": "sprints",
+      "file": "sprints/S-013-supabase-db-auth-storage.md",
+      "title": "Supabase (DB + Auth + Storage)",
+      "truncated": false
+    },
+    {
+      "kind": "row",
+      "ref": "S-014",
+      "notion_id": "350c2705-92bb-81be-9ebf-ed71d8b5b060",
+      "base": "sprints",
+      "file": "sprints/S-014-sentry.md",
+      "title": "Sentry",
+      "truncated": false
+    },
+    {
+      "kind": "row",
+      "ref": "S-015",
+      "notion_id": "350c2705-92bb-818f-8721-de7df1622f0f",
+      "base": "sprints",
+      "file": "sprints/S-015-cloudflare.md",
+      "title": "Cloudflare",
+      "truncated": false
+    },
+    {
+      "kind": "row",
+      "ref": "S-016",
+      "notion_id": "350c2705-92bb-813e-a5f3-da49bad3f13e",
+      "base": "sprints",
+      "file": "sprints/S-016-paddle-mor.md",
+      "title": "Paddle MoR",
+      "truncated": false
+    },
+    {
+      "kind": "row",
+      "ref": "S-017",
+      "notion_id": "350c2705-92bb-81d3-829c-fd556451c994",
+      "base": "sprints",
+      "file": "sprints/S-017-resend.md",
+      "title": "Resend",
+      "truncated": false
+    },
+    {
+      "kind": "row",
+      "ref": "S-018",
+      "notion_id": "350c2705-92bb-81a8-9135-ea862904e253",
+      "base": "sprints",
+      "file": "sprints/S-018-yolo11-ultralytics.md",
+      "title": "YOLO11 (Ultralytics)",
+      "truncated": false
+    },
+    {
+      "kind": "row",
+      "ref": "S-019",
+      "notion_id": "350c2705-92bb-8193-bcf0-ce3bcaa17b88",
+      "base": "sprints",
+      "file": "sprints/S-019-bytetrack-via-ultralytics.md",
+      "title": "ByteTrack (via ultralytics)",
+      "truncated": false
+    },
+    {
+      "kind": "row",
+      "ref": "S-020",
+      "notion_id": "350c2705-92bb-816b-8938-c673afdfda1d",
+      "base": "sprints",
+      "file": "sprints/S-020-opencv-mog2.md",
+      "title": "OpenCV MOG2",
+      "truncated": false
+    },
+    {
+      "kind": "row",
+      "ref": "S-021",
+      "notion_id": "350c2705-92bb-814e-beab-dd00a04ad873",
+      "base": "sprints",
+      "file": "sprints/S-021-pnpm.md",
+      "title": "pnpm",
+      "truncated": false
+    },
+    {
+      "kind": "row",
+      "ref": "S-022",
+      "notion_id": "350c2705-92bb-81e3-bbfd-c1d89a18d8d2",
+      "base": "sprints",
+      "file": "sprints/S-022-turborepo.md",
+      "title": "Turborepo",
+      "truncated": false
+    },
+    {
+      "kind": "row",
+      "ref": "S-023",
+      "notion_id": "350c2705-92bb-81ac-bb1f-ca7acaf820de",
+      "base": "sprints",
+      "file": "sprints/S-023-motionops-types.md",
+      "title": "@motionops/types",
+      "truncated": false
+    },
+    {
+      "kind": "row",
+      "ref": "S-024",
+      "notion_id": "350c2705-92bb-817a-8573-f649a7cea21d",
+      "base": "sprints",
+      "file": "sprints/S-024-motionops-events.md",
+      "title": "@motionops/events",
+      "truncated": false
+    },
+    {
+      "kind": "row",
+      "ref": "S-025",
+      "notion_id": "350c2705-92bb-81af-9772-cd675ccd7a81",
+      "base": "sprints",
+      "file": "sprints/S-025-motionops-config.md",
+      "title": "@motionops/config",
+      "truncated": false
+    },
+    {
+      "kind": "row",
+      "ref": "S-026",
+      "notion_id": "350c2705-92bb-81b4-8812-e387d6fc0fb7",
+      "base": "sprints",
+      "file": "sprints/S-026-motionops-ui.md",
+      "title": "@motionops/ui",
+      "truncated": false
+    },
+    {
+      "kind": "row",
+      "ref": "SEC-001",
+      "notion_id": "350c2705-92bb-8145-a65d-f1c0180c0dff",
+      "base": "securite",
+      "file": "securite/SEC-001-hsts-preload-active-sur-prod.md",
+      "title": "HSTS preload activé sur prod",
+      "truncated": false
+    },
+    {
+      "kind": "row",
+      "ref": "SEC-002",
+      "notion_id": "350c2705-92bb-81da-90d5-c3f68fa54915",
+      "base": "securite",
+      "file": "securite/SEC-002-idle-timeout-30min-implemente-refresh-token-lastusedat.md",
+      "title": "Idle timeout 30min implémenté (refresh token lastUsedAt)",
+      "truncated": false
+    },
+    {
+      "kind": "row",
+      "ref": "SEC-003",
+      "notion_id": "350c2705-92bb-812a-bb81-e5cb8a0fa131",
+      "base": "securite",
+      "file": "securite/SEC-003-rls-tenant-policies-deployees-en-prod-force-rls-sur-14-table.md",
+      "title": "RLS tenant policies déployées en prod (FORCE RLS sur 14 tables)",
+      "truncated": false
+    },
+    {
+      "kind": "row",
+      "ref": "SEC-004",
+      "notion_id": "350c2705-92bb-8140-ab68-e755a2e6ae78",
+      "base": "securite",
+      "file": "securite/SEC-004-tls-worker-rtsps-regex-enforcement-en-prod.md",
+      "title": "TLS worker — rtsps:// regex enforcement en prod",
+      "truncated": false
+    },
+    {
+      "kind": "row",
+      "ref": "SEC-005",
+      "notion_id": "350c2705-92bb-8184-8a2b-f1d04de8885c",
+      "base": "securite",
+      "file": "securite/SEC-005-cloudflare-waf-rules-bot-rate-limit-geofencing.md",
+      "title": "Cloudflare WAF rules (bot/rate-limit/geofencing)",
+      "truncated": false
+    },
+    {
+      "kind": "row",
+      "ref": "SEC-006",
+      "notion_id": "350c2705-92bb-8183-be2d-f01cc3b608b3",
+      "base": "securite",
+      "file": "securite/SEC-006-rotation-secrets-prod-jwt-secret-mfa-encryption-key-worker-a.md",
+      "title": "Rotation secrets prod (JWT_SECRET, MFA_ENCRYPTION_KEY, WORKER_API_KEY)",
+      "truncated": false
+    },
+    {
+      "kind": "row",
+      "ref": "SEC-007",
+      "notion_id": "350c2705-92bb-8174-801d-cf9cafd0d038",
+      "base": "securite",
+      "file": "securite/SEC-007-activation-mfa-totp-sur-compte-super-admin.md",
+      "title": "Activation MFA TOTP sur compte SUPER_ADMIN",
+      "truncated": false
+    },
+    {
+      "kind": "row",
+      "ref": "SEC-008",
+      "notion_id": "350c2705-92bb-8162-b824-fe7bc7c1b91d",
+      "base": "securite",
+      "file": "securite/SEC-008-signature-dpa-supabase-pro.md",
+      "title": "Signature DPA Supabase Pro",
+      "truncated": false
+    },
+    {
+      "kind": "row",
+      "ref": "SEC-009",
+      "notion_id": "350c2705-92bb-81fd-b017-d04975ec5bdb",
+      "base": "securite",
+      "file": "securite/SEC-009-declaration-cnil-registre-rgpd-art-30-video.md",
+      "title": "Déclaration CNIL (registre RGPD art. 30 vidéo)",
+      "truncated": false
+    },
+    {
+      "kind": "row",
+      "ref": "SEC-010",
+      "notion_id": "350c2705-92bb-81d7-8a08-d4a1652e489b",
+      "base": "securite",
+      "file": "securite/SEC-010-achat-domaine-dns-cloudflare.md",
+      "title": "Achat domaine + DNS Cloudflare",
+      "truncated": false
+    },
+    {
+      "kind": "row",
+      "ref": "SEC-011",
+      "notion_id": "350c2705-92bb-81ce-8c64-db1c0be151c0",
+      "base": "securite",
+      "file": "securite/SEC-011-sentry-pii-data-scrubbing-active-en-prod.md",
+      "title": "Sentry PII data scrubbing activé en prod",
+      "truncated": false
+    },
+    {
+      "kind": "row",
+      "ref": "SEC-012",
+      "notion_id": "350c2705-92bb-81eb-ba3e-f1964002f8bc",
+      "base": "securite",
+      "file": "securite/SEC-012-dependabot-configure-npm-pip-docker-github-actions.md",
+      "title": "Dependabot configuré (npm, pip, docker, github-actions)",
+      "truncated": false
+    },
+    {
+      "kind": "row",
+      "ref": "SEC-013",
+      "notion_id": "350c2705-92bb-81af-a673-d22ed4db8b96",
+      "base": "securite",
+      "file": "securite/SEC-013-pinned-base-images-docker.md",
+      "title": "Pinned base images Docker",
+      "truncated": false
+    },
+    {
+      "kind": "row",
+      "ref": "SEC-014",
+      "notion_id": "350c2705-92bb-8192-961d-c34acc1629b5",
+      "base": "securite",
+      "file": "securite/SEC-014-least-privilege-secrets-github-actions.md",
+      "title": "Least-privilege secrets GitHub Actions",
+      "truncated": false
+    },
+    {
+      "kind": "row",
+      "ref": "SEC-015",
+      "notion_id": "350c2705-92bb-816c-986b-f0a1bbda8904",
+      "base": "securite",
+      "file": "securite/SEC-015-backup-db-restore-test-mensuel.md",
+      "title": "Backup DB : restore test mensuel",
+      "truncated": false
+    },
+    {
+      "kind": "row",
+      "ref": "T-001",
+      "notion_id": "350c2705-92bb-816e-9b16-d255d70f88e4",
+      "base": "taches",
+      "file": "taches/T-001-live-stream-backend-api-live-cameraid-route-handler-auth.md",
+      "title": "Live stream backend `/api/live/:cameraId` (route + handler + auth)",
+      "truncated": false
+    },
+    {
+      "kind": "row",
+      "ref": "T-002",
+      "notion_id": "350c2705-92bb-81f7-a19a-d2af50d3aeb4",
+      "base": "taches",
+      "file": "taches/T-002-accept-invitation-flow-complet.md",
+      "title": "accept-invitation flow complet",
+      "truncated": false
+    },
+    {
+      "kind": "row",
+      "ref": "T-003",
+      "notion_id": "350c2705-92bb-8167-993f-fc7b902a4544",
+      "base": "taches",
+      "file": "taches/T-003-passkey-recovery-flow-complet.md",
+      "title": "passkey recovery flow complet",
+      "truncated": false
+    },
+    {
+      "kind": "row",
+      "ref": "T-004",
+      "notion_id": "350c2705-92bb-814b-9114-ed17a2db77e8",
+      "base": "taches",
+      "file": "taches/T-004-rls-tenant-policies-finaliser-le-wrapper-transaction-prisma-.md",
+      "title": "RLS tenant policies — finaliser le wrapper transaction Prisma + AsyncLocalStorage",
+      "truncated": false
+    },
+    {
+      "kind": "row",
+      "ref": "T-005",
+      "notion_id": "350c2705-92bb-81ac-999f-dd8627d1c732",
+      "base": "taches",
+      "file": "taches/T-005-hsts-preload-submit-sur-hstspreload-org.md",
+      "title": "HSTS preload submit sur hstspreload.org",
+      "truncated": false
+    },
+    {
+      "kind": "row",
+      "ref": "T-006",
+      "notion_id": "350c2705-92bb-811c-a7a0-d84affbd111e",
+      "base": "taches",
+      "file": "taches/T-006-idle-timeout-30min-via-lastusedat-refresh-token.md",
+      "title": "Idle timeout 30min via lastUsedAt refresh token",
+      "truncated": false
+    },
+    {
+      "kind": "row",
+      "ref": "T-007",
+      "notion_id": "350c2705-92bb-81c6-a787-d909843925eb",
+      "base": "taches",
+      "file": "taches/T-007-tls-worker-rtsps-regex-enforcement-en-prod.md",
+      "title": "TLS worker — `rtsps://` regex enforcement en prod",
+      "truncated": false
+    },
+    {
+      "kind": "row",
+      "ref": "T-008",
+      "notion_id": "350c2705-92bb-81bf-8bca-c50455ebba88",
+      "base": "taches",
+      "file": "taches/T-008-cloudflare-waf-rules-bot-rate-limit-geofencing.md",
+      "title": "Cloudflare WAF rules (bot/rate-limit/geofencing)",
+      "truncated": false
+    },
+    {
+      "kind": "row",
+      "ref": "T-009",
+      "notion_id": "350c2705-92bb-8174-aac9-cab65a38d1e8",
+      "base": "taches",
+      "file": "taches/T-009-vitest-unit-tests-60-tests-sur-api-web-types.md",
+      "title": "Vitest unit tests (~60 tests) sur api + web + types",
+      "truncated": false
+    },
+    {
+      "kind": "row",
+      "ref": "T-011",
+      "notion_id": "350c2705-92bb-819b-a939-d5102500cf28",
+      "base": "taches",
+      "file": "taches/T-011-grafana-loki-dashboards-db-qps-api-p95-ws-conn-event-volume-.md",
+      "title": "Grafana/Loki dashboards (DB QPS, API p95, WS conn, event volume, worker fps)",
+      "truncated": false
+    },
+    {
+      "kind": "row",
+      "ref": "T-012",
+      "notion_id": "350c2705-92bb-8191-8f05-c1dd8df4b1e5",
+      "base": "taches",
+      "file": "taches/T-012-incident-runbook-docs-04-operations-incident-runbook-md.md",
+      "title": "Incident runbook docs/04-operations/incident-runbook.md",
+      "truncated": false
+    },
+    {
+      "kind": "row",
+      "ref": "T-013",
+      "notion_id": "350c2705-92bb-8124-9152-fc75e261b8ab",
+      "base": "taches",
+      "file": "taches/T-013-pre-prod-manual-actions-tracker-10-items-p0-p1.md",
+      "title": "Pre-prod manual actions tracker — 10 items P0/P1",
+      "truncated": false
+    }
+  ]
+}
