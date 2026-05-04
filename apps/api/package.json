@@ -23,9 +23,9 @@
   },
   "dependencies": {
     "@prisma/client": "^6.0.0",
-    "@sentry/node": "10.50.0",
+    "@sentry/node": "10.51.0",
     "@simplewebauthn/server": "^13.3.0",
-    "@supabase/supabase-js": "^2.104.1",
+    "@supabase/supabase-js": "^2.105.1",
     "bcryptjs": "^3.0.3",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
